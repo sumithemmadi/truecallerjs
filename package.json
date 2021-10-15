@@ -1,0 +1,26 @@
+{
+  "name": "truecaller-nodejs",
+  "version": "1.0.0",
+  "description": "truecaller-nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sumithemmadi/truecaller-nodejs.git"
+  },
+  "keywords": [
+    "truecaller",
+    "number"
+  ],
+  "author": "sumithemmadi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sumithemmadi/truecaller-nodejs/issues"
+  },
+  "homepage": "https://github.com/sumithemmadi/truecaller-nodejs#readme",
+  "dependencies": {
+    "minimist": "^1.2.5"
+  }
+}
