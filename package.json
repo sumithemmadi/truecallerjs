@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/sumithemmadi/truecaller-nodejs#readme",
   "dependencies": {
+    "awesome-phonenumber": "^2.63.0",
     "yargs": "^17.2.1"
   }
 }
