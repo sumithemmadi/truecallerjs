@@ -32,8 +32,8 @@ if (argv._[0] == 'login') {
      process.exit();
 }
 
-if (argv.s) {
-    var pn = PhoneNumber( argv.s, 'IN' );
+if (argv.s.toString()) {
+    var pn = PhoneNumber( argv.s.toString(), 'IN' );
     if (!pn.isValid( )) {
         console.log("!invalid number");
         return false;
