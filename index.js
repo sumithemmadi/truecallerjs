@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-var util = require('util');
+const util = require('util');
 const yargs = require('yargs');
-var PhoneNumber = require( 'awesome-phonenumber' );
+const PhoneNumber = require( 'awesome-phonenumber' );
 
 const argv = yargs
 //    .usage('Usage: $0 -w [num] -yh[num]')
@@ -33,7 +33,7 @@ if (argv._[0] == 'login') {
 }
 
 if (argv.s.toString()) {
-    var pn = PhoneNumber( argv.s.toString(), 'IN' );
+    let pn = PhoneNumber( argv.s.toString(), 'IN' );
     if (!pn.isValid( )) {
         console.log("!invalid number");
         return false;
