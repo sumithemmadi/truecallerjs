@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/sumithemmadi/truecaller-nodejs#readme",
   "dependencies": {
-    "minimist": "^1.2.5"
+    "yargs": "^17.2.1"
   }
 }
