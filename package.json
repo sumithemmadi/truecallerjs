@@ -1,0 +1,29 @@
+{
+  "name": "truecallerjs",
+  "version": "1.0.0",
+  "description": "truecallerjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sumithemmadi/truecallerjs.git"
+  },
+  "keywords": [
+    "truecaller",
+    "number"
+  ],
+  "author": "sumithemmadi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sumithemmadi/truecallerjs/issues"
+  },
+  "homepage": "https://github.com/sumithemmadi/truecallerjs#readme",
+  "dependencies": {
+    "awesome-phonenumber": "^2.63.0",
+    "prompt-sync": "^4.2.0",
+    "randomstring": "^1.2.1",
+    "yargs": "^17.2.1"
+  }
+}
