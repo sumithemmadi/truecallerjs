@@ -1,2 +1,2 @@
-# truecaller-nodejs
-Search caller Id with truecaller-nodejs
+# truecallerjs
+Search caller Id with truecallerjs
