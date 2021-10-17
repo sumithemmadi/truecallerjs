@@ -2,7 +2,7 @@ const yargs = require("yargs");
 const PhoneNumber = require("awesome-phonenumber");
 const prompt = require("prompt-sync")();
 const axios = require("axios").default;
-var randomstring = require("randomstring");
+var getRandomString = require("./lib/generateRandomString");
 const colors = require('colors');
 
 // User login function
@@ -19,7 +19,10 @@ function userLogin(number, regionCode, countryCode,internationalNumber) {
         store: "GOOGLE_PLAY"
       },
       device: {
-        deviceId: "2fa2d0b0h64ef00",
+        deviceId: getRandomString({
+          length: 16,
+          charset: 'hex'
+        }),
         language: "en",
         manufacturer: "Xiaomi",
         model: "M2010J19SG",
@@ -44,7 +47,7 @@ function userLogin(number, regionCode, countryCode,internationalNumber) {
       clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
     },
   });
-
+  console.log(postdata);
   return axiosInstance
   .post(
     "https://account-asia-south1.truecaller.com/v2/sendOnboardingOtp",
