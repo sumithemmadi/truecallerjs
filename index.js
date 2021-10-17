@@ -19,7 +19,7 @@ function userLogin(number, regionCode, countryCode,internationalNumber) {
         store: "GOOGLE_PLAY"
       },
       device: {
-        deviceId: "f5fg1fyl9l6nh4lgk",
+        deviceId: "f5fg1fytyj7nh4lgk",
         language: "en",
         manufacturer: "Xiaomi",
         model: "M2010J19SG",
@@ -61,13 +61,13 @@ function userLogin(number, regionCode, countryCode,internationalNumber) {
 
 }
 
-function otpVerification(number,regionCode,countryCode,RequestID,otp){
+function otpVerification(number,regionCode,countryCode,RequestID,otpValue){
   const postdata = {
     countryCode: regionCode,
     dialingCode: countryCode,
     phoneNumber: number,
-    requestId  : RequestID, 
-    token      : otp
+    requestId: RequestID, 
+    token: otpValue
   }
   const axiosInstance = axios.create({
     headers: {
@@ -133,19 +133,21 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
     sendOtp.then(function (response) {
       console.log(response);
       if (response.status == 1 || response.status == 9 ) {
-        if (response.message == "Sent") {
-          let RequestID = response.requestId
+        if (response.status == 1) {
           console.log("Otp sent successfully ".green);
-          let otp =  prompt("Enter Received OTP : ");
-          while (otp.length != 6) {
-            console.log("Enter valid 6 digits otp ".red);
-            let otp =  prompt("Enter OTP : ");
-          }
-          let verifyOtp = otpVerification(number,regionCode,countryCode,RequestID,otp)
-          verifyOtp.then(function (result) {
-            console.log(result);
-          });
         }
+        let RequestID = response.requestId
+        let otp =  prompt("Enter Received OTP : ");
+        while (otp.length != 6) {
+          console.log("Enter valid 6 digits otp ".red);
+          let otp =  prompt("Enter OTP : ");
+        }
+        const otpValue  = otp.toString()
+        let verifyOtp = otpVerification(number,regionCode,countryCode,RequestID,otpValue)
+        verifyOtp.then(function (result) {
+          console.log(result);
+          console.log(result.installationId);
+        });
       } else {
         console.log(response.message.red);
       }
