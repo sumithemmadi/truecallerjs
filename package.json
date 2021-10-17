@@ -22,8 +22,12 @@
   "homepage": "https://github.com/sumithemmadi/truecallerjs#readme",
   "dependencies": {
     "awesome-phonenumber": "^2.63.0",
+    "axios": "^0.23.0",
     "prompt-sync": "^4.2.0",
     "randomstring": "^1.2.1",
+    "xhr": "^2.6.0",
+    "xhr2": "^0.2.1",
+    "xmlhttprequest": "^1.8.0",
     "yargs": "^17.2.1"
   }
 }

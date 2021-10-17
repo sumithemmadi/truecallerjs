@@ -1,86 +1,105 @@
+var randomstring = require("randomstring");
+const axios = require("axios").default;
 
 // User login function
 function userLogin(number, regionCode, countryCode, internationalNumber) {
+  console.log("Sending OTP to ${internationalNumber} ")
+  let sendOtp = authenticationRequest(number = "9912896765", "in", 91);
+  sendOtp.then(function (response) {
+    console.log(response);
+    if (response.status == 1 || response.status == 9 ) {
+      if (response.message == "Sent") {
+        console.log("Otp sent successfully ");       
+      } else {
+        console.log("Somithing went work.");
+      }
+    }
+  });
+
   return true;
 }
-  
+
 //search number function
 function searchNumber(number, regionCode, countryCode, internationalNumber) {
   return true;
 }
 
-function dec2hex (dec) {
-  return dec.toString(16).padStart(2, "0")
-}
+function generate(n) {
+  var add = 1,
+    max = 12 - add; // 12 is the min safe number Math.random() can generate without it starting to pad the end with zeros.
 
-// generateRandomString :: Integer -> String
-function authenticationRequest (stringLength) {
-  var arr = new Uint8Array((stringLength || 40) / 2)
-  window.crypto.getRandomValues(arr)
-  return Array.from(arr, dec2hex).join('')
+  if (n > max) {
+    return generate(max) + generate(n - max);
+  }
+
+  max = Math.pow(10, n + add);
+  var min = max / 10; // Math.pow(10, n) basically
+  var number = Math.floor(Math.random() * (max - min + 1)) + min;
+
+  return ("" + number).substring(add);
 }
 
 function getRandomNumber(length) {
-  return Math.floor(Math.pow(10, length-1) + Math.random() * 9 * Math.pow(10, length-1));
+  return Math.floor(
+    Math.pow(10, length - 1) + Math.random() * 9 * Math.pow(10, length - 1)
+  );
 }
 
-function authenticationRequest(number, regionCode, countryCode, internationalNumber) {
+function authenticationRequest(
+  number,
+  regionCode,
+  countryCode
+) {
   let postdata = {
-    'countryCode': regionCode,
-    'dialingCode': countryCode,
-    'installationDetails': {
-      'app': {
-        'buildVersion': 5,
-        'majorVersion': 11,
-        'minorVersion': 75,
-        'store': 'GOOGLE_PLAY'
+    countryCode: regionCode,
+    dialingCode: countryCode,
+    installationDetails: {
+      app: {
+        buildVersion: 5,
+        majorVersion: 11,
+        minorVersion: 7,
+        store: "GOOGLE_PLAY"
       },
-      'device': {
-        'deviceId': generateRandomString(16),
-        'language': 'en',
-        'manufacturer': 'Xiaomi',
-        'mobileServices': ['GMS'],
-        'model': 'M2010J19SG',
-        'osName': 'Android',
-        'osVersion': '10',
-        'simSerials': [ getRandomNumber(19), getRandomNumber(20)]
+      device: {
+        deviceId: "2fa2d0b0h82ef00",
+        language: "en",
+        manufacturer: "Xiaomi",
+        model: "M2010J19SG",
+        osName: "Android",
+        osVersion: "10",
+        mobileServices: [
+          "GMS"
+        ]
       },
-      'language': 'en',
-      'sims': [{
-        'imsi': getRandomNumber(15),
-        'mcc': '413',
-        'mnc': '2',
-        'operator': None
-      }]
+      language: "en"
     },
-    'phoneNumber': number,
-    'region': 'region-2',
-    'sequenceNo': '2'
+    phoneNumber: number,
+    region: 'region-2',
+    sequenceNo: 2
   }
 
-  let headers = {
-    'content-type': 'application/json; charset=UTF-8',
-    'accept-encoding': 'gzip',
-    'user-agent': 'Truecaller/11.75.5 (Android;10)',
-    'clientsecret': 'lvc22mp3l1sfv6ujg83rd17btt'
-  }
-  let requestResp = sumthing.post('https://account-asia-south1.truecaller.com/v2/sendOnboardingOtp', headers = headers, json = postdata)
-  if (requestResp.json()['status'] == 1 or requestResp.json()['status'] == 9) {
-    return req.json()['requestId']
-  } else {
-    return False, req.json()['message']
-  }
+
+  const axiosInstance = axios.create({
+    headers: {
+      "content-type": "application/json; charset=UTF-8",
+      "accept-encoding": "gzip",
+      "user-agent": "Truecaller/11.75.5 (Android;10)",
+      clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
+    },
+  });
+
+  return axiosInstance
+    .post(
+      "https://account-asia-south1.truecaller.com/v2/sendOnboardingOtp",
+      postdata
+    )
+    .then(
+      (response) => {
+        return response.data;
+      },
+      (err) => {
+        return err.response.data;
+      }
+    );
 }
 
-function authenticateOTP(id_, number, pin):
-    jsonData = {'countryCode':'', 'dialingCode':None, 'phoneNumber':num, 'requestId':id_, 'token':pin}
-    headers = {'content-type':'application/json; charset=UTF-8', 'accept-encoding':'gzip', 'user-agent':'Truecaller/11.75.5 (Android;10)', 'clientsecret':'lvc22mp3l1sfv6ujg83rd17btt'}
-    req = requests.post('https://account-asia-south1.truecaller.com/v1/verifyOnboardingOtp', headers=headers, json=jsonData)
-    if (req.json()['status'] == 11)
-        return False, 'OTP code is invalid'
-    elseif (req.json()['status'] == 2 and req.json()['suspended']) {
-        return False, 'oops.. your account got suspended. try another number :('
-    } else {
-        return req.json()['installationId']
-    }
-}
