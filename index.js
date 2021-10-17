@@ -2,7 +2,7 @@ const yargs = require("yargs");
 const PhoneNumber = require("awesome-phonenumber");
 const prompt = require("prompt-sync")();
 const axios = require("axios").default;
-var getRandomString = require("./lib/generateRandomString");
+// var getRandomString = require("./lib/generateRandomString");
 const colors = require('colors');
 
 // User login function
@@ -19,10 +19,7 @@ function userLogin(number, regionCode, countryCode,internationalNumber) {
         store: "GOOGLE_PLAY"
       },
       device: {
-        deviceId: getRandomString({
-          length: 16,
-          charset: 'hex'
-        }),
+        deviceId: "f5fg1fyl9l6nh4lgk",
         language: "en",
         manufacturer: "Xiaomi",
         model: "M2010J19SG",
@@ -64,6 +61,9 @@ function userLogin(number, regionCode, countryCode,internationalNumber) {
 
 }
 
+function otpVerification(number,regionCode,countryCode,RequestID,otp){
+
+}
 //search number function
 function searchNumber(number, regionCode, countryCode, internationalNumber) {
   return true;
@@ -105,10 +105,20 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
       console.log(response);
       if (response.status == 1 || response.status == 9 ) {
         if (response.message == "Sent") {
-          console.log("Otp sent successfully ".green);       
-        } else {
-          console.log(response.message.red);
+          let RequestID = response.requestId
+          console.log("Otp sent successfully ".green);
+          let otp =  prompt("Enter Received OTP : ");
+          while (otp.length != 6) {
+            console.log("Enter valid 6 digits otp ".red);
+            let otp =  prompt("Enter OTP : ");
+          }
+          let verifyOtp = otpVerification(number,regionCode,countryCode,RequestID,otp)
+          verifyOtp.then(function (result) {
+            console.log(result);
+          });
         }
+      } else {
+        console.log(response.message.red);
       }
     })
   }
@@ -130,3 +140,11 @@ if (argv.s) {
   }
 }
 
+
+
+
+// deviceId: getRandomString({
+//   length: 16,
+//   charset: 'hex'
+// }),
+// lang
