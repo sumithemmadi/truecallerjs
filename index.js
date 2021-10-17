@@ -66,8 +66,8 @@ function otpVerification(number,regionCode,countryCode,RequestID,otp){
     countryCode: regionCode,
     dialingCode: countryCode,
     phoneNumber: number,
-    RequestID,
-    otp
+    requestId  : RequestID, 
+    token      : otp
   }
   const axiosInstance = axios.create({
     headers: {
