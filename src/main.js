@@ -1,3 +1,14 @@
+
+// User login function
+function userLogin(number, regionCode, countryCode, internationalNumber) {
+  return true;
+}
+  
+//search number function
+function searchNumber(number, regionCode, countryCode, internationalNumber) {
+  return true;
+}
+
 function dec2hex (dec) {
   return dec.toString(16).padStart(2, "0")
 }
@@ -60,17 +71,6 @@ function authenticationRequest(number, regionCode, countryCode, internationalNum
     return False, req.json()['message']
   }
 }
-
-
-// User login function
-function userLogin(number, regionCode, countryCode, internationalNumber) {
-    return true;
-  }
-  
-  //search number function
-  function searchNumber(number, regionCode, countryCode, internationalNumber) {
-    return true;
-  }
 
 function authenticateOTP(id_, number, pin):
     jsonData = {'countryCode':'', 'dialingCode':None, 'phoneNumber':num, 'requestId':id_, 'token':pin}
