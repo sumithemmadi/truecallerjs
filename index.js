@@ -19,7 +19,7 @@ function userLogin(number, regionCode, countryCode,internationalNumber) {
         store: "GOOGLE_PLAY"
       },
       device: {
-        deviceId: "f5fg1fytyj7nh4lgk",
+        deviceId: generateRandomString(16),
         language: "en",
         manufacturer: "Xiaomi",
         model: "M2010J19SG",
@@ -93,6 +93,18 @@ function otpVerification(number,regionCode,countryCode,RequestID,otpValue){
   );
 
 }
+
+function generateRandomString(length){
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+  }
+  return result;
+}
+
 //search number function
 function searchNumber(number, regionCode, countryCode, internationalNumber) {
   return true;
