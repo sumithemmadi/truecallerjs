@@ -18,7 +18,7 @@ function userLogin(number, regionCode, countryCode,internationalNumber) {
         store: "GOOGLE_PLAY"
       },
       device: {
-        deviceId: "2fa2d0b0h82ef00",
+        deviceId: "2fa2d0b0h64ef00",
         language: "en",
         manufacturer: "Xiaomi",
         model: "M2010J19SG",
@@ -65,15 +65,6 @@ function searchNumber(number, regionCode, countryCode, internationalNumber) {
   return true;
 }
 
-function authenticationRequest(
-  number,
-  regionCode,
-  countryCode
-) {
-  
-}
-
-
 const argv = yargs
   .usage(
     "Usage: \n$0  login (Login to truecaller).\n$0 -s [number] (command to search a number)."
@@ -92,7 +83,7 @@ const argv = yargs
   .alias("help", "h").argv;
 
 if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
-  console.log("Login");
+  console.log("Login\n\n Enter mobile number in international formate\nfor Example : if the number is from indea");
   const inputNumber = prompt("Enter You Mobile Number : ");
   let pn = PhoneNumber(inputNumber.toString());
   if (!pn.isValid()) {
@@ -105,9 +96,16 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
     let internationalNumber = pn.getNumber("e164");
     let countryCode = pn.getCountryCode();
 
-    let sendOtp = userLogin(number = "9912896765", "in", 91,"+919912896765");
+    let sendOtp = userLogin(number,regionCode, countryCode,internationalNumber);
     sendOtp.then(function (response) {
       console.log(response);
+      if (response.status == 1 || response.status == 9 ) {
+        if (response.message == "Sent") {
+          console.log("Otp sent successfully ");       
+        } else {
+          console.log(response.message);
+        }
+      }
     })
   }
   // process.exit();
