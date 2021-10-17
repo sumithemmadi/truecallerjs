@@ -3,10 +3,11 @@ const PhoneNumber = require("awesome-phonenumber");
 const prompt = require("prompt-sync")();
 const axios = require("axios").default;
 var randomstring = require("randomstring");
+const colors = require('colors');
 
 // User login function
 function userLogin(number, regionCode, countryCode,internationalNumber) {
-  console.log("Sending OTP to",internationalNumber);
+  console.log("Sending OTP to".yellow,internationalNumber.yellow);
   let postdata = {
     countryCode: regionCode,
     dialingCode: countryCode,
@@ -83,11 +84,11 @@ const argv = yargs
   .alias("help", "h").argv;
 
 if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
-  console.log("Login\n\n Enter mobile number in international formate\nfor Example : if the number is from indea");
+  console.log("Login\n\n Enter mobile number in international formate\n Example : +919912345678.\n".blue);
   const inputNumber = prompt("Enter You Mobile Number : ");
   let pn = PhoneNumber(inputNumber.toString());
   if (!pn.isValid()) {
-    console.log("! Invalid number");
+    console.log("! Invalid number".red);
     return false;
   } else {
     // console.log(JSON.stringify( pn, null, 4 ));
@@ -101,9 +102,9 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
       console.log(response);
       if (response.status == 1 || response.status == 9 ) {
         if (response.message == "Sent") {
-          console.log("Otp sent successfully ");       
+          console.log("Otp sent successfully ".green);       
         } else {
-          console.log(response.message);
+          console.log(response.message.red);
         }
       }
     })
