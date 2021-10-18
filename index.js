@@ -43,7 +43,7 @@ function userLogin(number, regionCode, countryCode,internationalNumber) {
       clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
     },
   });
-  console.log(postdata);
+  // console.log(postdata);
   return axiosInstance
   .post(
     "https://account-asia-south1.truecaller.com/v2/sendOnboardingOtp",
@@ -60,13 +60,13 @@ function userLogin(number, regionCode, countryCode,internationalNumber) {
 
 }
 
-function otpVerification(number,regionCode,countryCode,RequestID,otpValue){
+function otpVerification(number,regionCode,countryCode,requestId,token){
   const postdata = {
     countryCode: regionCode,
     dialingCode: countryCode,
-    phoneNumber: number.toString,
-    requestId: RequestID, 
-    token: otpValue
+    phoneNumber: number,
+    requestId,
+    token
   }
   const axiosInstance = axios.create({
     headers: {
@@ -95,7 +95,7 @@ function otpVerification(number,regionCode,countryCode,RequestID,otpValue){
 
 function generateRandomString(length){
   var result           = '';
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var characters       = 'abcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
   for ( var i = 0; i < length; i++ ) {
     
@@ -143,46 +143,51 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 
     let sendOtp = userLogin(number,regionCode, countryCode,internationalNumber);
     sendOtp.then(function (response) {
-      console.log(response);
+      // console.log(response);
       if (response.status == 1) {
         console.log("Otp sent successfully ".green);
         let RequestID = response.requestId;
-        let otp =  prompt("Enter Received OTP : ");
-        while (otp.length != 6) {
-          console.log("Enter valid 6 digits otp ".red);
-          let otp =  prompt("Enter OTP : ");
-        }
+        let pin =  prompt("Enter Received OTP : ");
+        // const pin  = otp.toString();
+        let verifyOtp = otpVerification(number,regionCode,countryCode,RequestID,pin.toString());
+        verifyOtp.then(function (result) {
+          console.log(result);
+          if (result.status == 11) {
+            console.log(result.installationId);
+          } 
+          else if (result.status == 2 && result.suspended) {
+            console.log("Oops... Your account got suspended.".red);
+          }
+          else {
+            console.log("Oops... somthing went wrong.".red);
+          }
+        });       
       }
       else if (response.status == 9) {
         console.log("Enter 6 digits OTP sent to your mobile ".green);
         let RequestID = response.requestId;
-        let otp =  prompt("Enter Received OTP : ");
-        while (otp.length != 6) {
-          console.log("Enter valid 6 digits otp ".red);
-          let otp =  prompt("Enter OTP : ");
-          process.exit()
-        }
+        let pin =  prompt("Enter Received OTP : ");
+        // const pin  = otp.toString();
+        let verifyOtp = otpVerification(number,regionCode,countryCode,RequestID,pin.toString());
+        verifyOtp.then(function (result) {
+          console.log(result);
+          if (result.status == 11) {
+            console.log(result.installationId);
+          } 
+          else if (result.status == 2 && result.suspended) {
+            console.log("Oops... Your account got suspended.".red);
+          }
+          else {
+            console.log("Oops... somthing went wrong.".red);
+          }
+        });
       } else {
         console.log(response.message.red);
         process.exit();
       }
-      // verifyOtp.then(function (result) {
-      //   console.log(result);
-      //   if (result.status == 11) {
-      //     console.log(result.installationId);
-      //   } 
-      //   else if (result.status == 2 && result.suspended) {
-      //     console.log("Oops... Your account got suspended.");
-      //   }
-      //   else {
-      //     console.log("Oops... Your account got suspended.");
-      //   }
-      // }
     });
   }
 }
- 
-
 
 if (argv.s) {
   let pn = PhoneNumber(argv.s.toString(), "IN");
