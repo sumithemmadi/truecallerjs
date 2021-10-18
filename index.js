@@ -232,5 +232,5 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         }
     });
 } else {
-    console.log(argv.h);
+    yargs.showHelp();
 }

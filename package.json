@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "node index.js login",
-    "postinstall":"npm link"
+    "postinstall": "npm link"
   },
   "bin": {
-    "truecaller": "./index.js",
-    "truecallerjs":"./index.js"
+    "truecaller": "index.js",
+    "truecallerjs": "index.js"
   },
   "repository": {
     "type": "git",
@@ -28,10 +28,15 @@
   "dependencies": {
     "awesome-phonenumber": "^2.64.0",
     "axios": "^0.23.0",
+    "chalk": "^4.1.2",
     "colors": "^1.4.0",
     "path": "^0.12.7",
     "prompt-sync": "^4.1.6",
     "randombytes": "^2.1.0",
     "yargs": "^17.2.1"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {}
 }
