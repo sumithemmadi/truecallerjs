@@ -1,11 +1,11 @@
-const yargs = require("yargs");
+const yargs       = require("yargs");
 const PhoneNumber = require("awesome-phonenumber");
-const prompt = require("prompt-sync")();
-const axios = require("axios").default;
-const verify = require("./src/verify");
-const colors = require("colors");
-const truecaller = require("./src/verify");
-const fs = require("fs");
+const prompt      = require("prompt-sync")();
+const axios       = require("axios").default;
+const verify      = require("./src/verify");
+const colors      = require("colors");
+const truecaller  = require("./src/verify");
+const fs          = require("fs");
 
 // User login function
 function userLogin(number, regionCode, countryCode, internationalNumber) {
@@ -42,7 +42,7 @@ function userLogin(number, regionCode, countryCode, internationalNumber) {
             "accept-encoding": "gzip",
             "user-agent": "Truecaller/11.75.5 (Android;10)",
             clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
-        },
+        }
     });
 
     return axiosInstance
@@ -78,7 +78,7 @@ function searchNumber(number, regionCode, authorizationBearer) {
             "accept-encoding": "gzip",
             "user-agent": "Truecaller/11.75.5 (Android;10)",
             clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
-        },
+        }
     });
 
     return axiosInstance
@@ -208,7 +208,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
     }
 }
 
-if (argv.s) {
+if (argv.s  && !argv._.includes("login")) {
     fs.readFile("./authkey.json", "utf8", (err, jsonString) => {
         if (err) {
             console.log("Please login again", err);
