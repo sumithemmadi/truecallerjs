@@ -2,11 +2,14 @@ const yargs = require("yargs");
 const PhoneNumber = require("awesome-phonenumber");
 const prompt = require("prompt-sync")();
 const axios = require("axios").default;
-const colors = require('colors');
+const verify = require("./src/verify");
+const colors = require("colors");
+const truecaller = require("./src/verify");
+const fs = require("fs");
 
 // User login function
-function userLogin(number, regionCode, countryCode,internationalNumber) {
-  console.log("Sending OTP to".yellow,internationalNumber.yellow);
+function userLogin(number, regionCode, countryCode, internationalNumber) {
+  console.log("Sending OTP to".yellow, internationalNumber.yellow);
   let postdata = {
     countryCode: regionCode,
     dialingCode: countryCode,
@@ -15,7 +18,7 @@ function userLogin(number, regionCode, countryCode,internationalNumber) {
         buildVersion: 5,
         majorVersion: 11,
         minorVersion: 7,
-        store: "GOOGLE_PLAY"
+        store: "GOOGLE_PLAY",
       },
       device: {
         deviceId: generateRandomString(16),
@@ -24,89 +27,137 @@ function userLogin(number, regionCode, countryCode,internationalNumber) {
         model: "M2010J19SG",
         osName: "Android",
         osVersion: "10",
-        mobileServices: [
-          "GMS"
-        ]
+        mobileServices: ["GMS"],
       },
-      language: "en"
+      language: "en",
     },
     phoneNumber: number,
-    region: 'region-2',
-    sequenceNo: 2
-  }
+    region: "region-2",
+    sequenceNo: 2,
+  };
 
   const axiosInstance = axios.create({
     headers: {
       "content-type": "application/json; charset=UTF-8",
       "accept-encoding": "gzip",
       "user-agent": "Truecaller/11.75.5 (Android;10)",
-      clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
+      clientsecret: "lvc22mp3l1sfv6ujg83rd17btt",
     },
   });
   // console.log(postdata);
   return axiosInstance
-  .post(
-    "https://account-asia-south1.truecaller.com/v2/sendOnboardingOtp",
-    postdata
-  )
-  .then(
-    (response) => {
-      return response.data;
-    },
-    (err) => {
-      return err.response.data;
-    }
-  );
-
+    .post(
+      "https://account-asia-south1.truecaller.com/v2/sendOnboardingOtp",
+      postdata
+    )
+    .then(
+      (response) => {
+        return response.data;
+      },
+      (err) => {
+        return err.response.data;
+      }
+    );
 }
 
-function otpVerification(number,regionCode,countryCode,requestId,token){
-  const postdata = {
-    countryCode: regionCode,
-    dialingCode: countryCode,
-    phoneNumber: number,
-    requestId,
-    token
-  }
-  const axiosInstance = axios.create({
-    headers: {
-      "content-type": "application/json; charset=UTF-8",
-      "accept-encoding": "gzip",
-      "user-agent": "Truecaller/11.75.5 (Android;10)",
-      clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
-    },
-  });
-  console.log(postdata);
-  return axiosInstance
-  .post(
-    "https://account-asia-south1.truecaller.com/v2/sendOnboardingOtp",
-    postdata
-  )
-  .then(
-    (response) => {
-      return response.data;
-    },
-    (err) => {
-      return err.response.data;
-    }
-  );
+// function otpVerification(number, Region_Code, Country_Code, requestId, token) {
+//   const postjson = {
+//     countryCode: Region_Code,
+//     dialingCode: Country_Code,
+//     phoneNumber: number,
+//     requestId,
+//     token
+//   };
+//   const axiosInstance = axios.create({
+//     headers: {
+//       "content-type": "application/json; charset=UTF-8",
+//       "accept-encoding": "gzip",
+//       "user-agent": "Truecaller/11.75.5 (Android;10)",
+//       clientsecret: "lvc22mp3l1sfv6ujg83rd17btt",
+//     },
+//   });
+//   console.log(postjson);
+//   return axiosInstance
+//     .post(
+//       "https://account-asia-south1.truecaller.com/v2/sendOnboardingOtp",
+//       postjson
+//     )
+//     .then(
+//       (response) => {
+//         return response.data;
+//       },
+//       (err) => {
+//         return err.response.data;
+//       }
+//     );
+// }
 
-}
-
-function generateRandomString(length){
-  var result           = '';
-  var characters       = 'abcdefghijklmnopqrstuvwxyz0123456789';
+function generateRandomString(length) {
+  var result = "";
+  var characters = "abcdefghijklmnopqrstuvwxyz0123456789";
   var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-    
-    result += characters.charAt(Math.floor(Math.random() * 
- charactersLength));
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
 }
 
 //search number function
-function searchNumber(number, regionCode, countryCode, internationalNumber) {
+function searchNumber(number, regionCode, authorizationBearer) {
+  const axiosInstance = axios.create({
+    headers: {
+      "content-type": "application/json; charset=UTF-8",
+      "accept-encoding": "gzip",
+      "user-agent": "Truecaller/11.75.5 (Android;10)",
+      clientsecret: "lvc22mp3l1sfv6ujg83rd17btt",
+    },
+  });
+
+  return axiosInstance
+    .get(`https://search5-noneu.truecaller.com/v2/search`, {
+      params: {
+        q: number,
+        countryCode: regionCode,
+        type: 4,
+        locAddr: "",
+        placement: "SEARCHRESULTS,HISTORY,DETAILS",
+        encoding: "json",
+      },
+      headers: {
+        Authorization: `Bearer ${authorizationBearer}`,
+      },
+    })
+    .then(
+      (response) => {
+        return response.data;
+      },
+      (err) => {
+        return err.response.data;
+      }
+    );
+}
+
+function isEmpty(obj) {
+  // null and undefined are "empty"
+  if (obj == null) return true;
+
+  // Assume if it has a length property with a non-zero value
+  // that that property is correct.
+  if (obj.length > 0) return false;
+  if (obj.length === 0) return true;
+
+  // If it isn't an object at this point
+  // it is empty, but it can't be anything *but* empty
+  // Is it empty?  Depends on your application.
+  if (typeof obj !== "object") return true;
+
+  // Otherwise, does it have any properties of its own?
+  // Note that this doesn't handle
+  // toString and valueOf enumeration bugs in IE < 9
+  for (var key in obj) {
+    if (hasOwnProperty.call(obj, key)) return false;
+  }
+
   return true;
 }
 
@@ -128,7 +179,10 @@ const argv = yargs
   .alias("help", "h").argv;
 
 if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
-  console.log("Login\n\n Enter mobile number in international formate\n Example : +919912345678.\n".blue);
+  console.log(
+    "Login\n\n Enter mobile number in international formate\n Example : +919912345678.\n"
+      .blue
+  );
   const inputNumber = prompt("Enter You Mobile Number : ");
   let pn = PhoneNumber(inputNumber.toString());
   if (!pn.isValid()) {
@@ -141,46 +195,43 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
     let internationalNumber = pn.getNumber("e164");
     let countryCode = pn.getCountryCode();
 
-    let sendOtp = userLogin(number,regionCode, countryCode,internationalNumber);
+    let sendOtp = userLogin(
+      number,
+      regionCode,
+      countryCode,
+      internationalNumber
+    );
     sendOtp.then(function (response) {
-      // console.log(response);
-      if (response.status == 1) {
+      if (response.status == 1 || response.status == 9) {
         console.log("Otp sent successfully ".green);
-        // let RequestID = response.requestId;
-        const otp =  prompt("Enter Received OTP : ");
-        // const pin  = otp.toString();
-        let verifyOtp = otpVerification(number,regionCode,countryCode,response.requestId,otp);
+        const otp = prompt("Enter Received OTP : ");
+        let verifyOtp = truecaller.verifyOtp(
+          number,
+          regionCode,
+          countryCode,
+          response.requestId,
+          otp
+        );
+
         verifyOtp.then(function (result) {
           console.log(result);
           if (result.status == 11) {
-            console.log(result.installationId);
-          } 
-          else if (result.status == 2 && result.suspended) {
+            fs.writeFile("./authkey.json", result, (err) => {
+              if (err) {
+                console.log(
+                  "Error generating authentication keys please login again"
+                );
+              } else {
+                console.log("Login Successfull.".green);
+              }
+            });
+          } else if (result.status == 2 && result.suspended) {
             console.log("Oops... Your account got suspended.".red);
-          }
-          else {
-            console.log("Oops... somthing went wrong.".red);
-          }
-        });       
-      }
-      else if (response.status == 9) {
-        console.log("Enter 6 digits OTP sent to your mobile ".green);
-        //let RequestID = response.requestId;
-        const otp =  prompt("Enter Received OTP : ");
-        // const pin  = otp.toString();
-        let verifyOtp = otpVerification(number,regionCode,countryCode,response.requestId,otp);
-        verifyOtp.then(function (result) {
-          console.log(result);
-          if (result.status == 11) {
-            console.log(result.installationId);
-          } 
-          else if (result.status == 2 && result.suspended) {
-            console.log("Oops... Your account got suspended.".red);
-          }
-          else {
+          } else {
             console.log("Oops... somthing went wrong.".red);
           }
         });
+        
       } else {
         console.log(response.message.red);
         process.exit();
@@ -190,16 +241,27 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 }
 
 if (argv.s) {
-  let pn = PhoneNumber(argv.s.toString(), "IN");
-  if (!pn.isValid()) {
-    console.log("! Invalid number");
-    return false;
-  } else {
-    // console.log(JSON.stringify( pn, null, 4 ));
-    let number = pn.getNumber("significant");
-    let regionCode = pn.getRegionCode();
-    let internationalNumber = pn.getNumber("e164");
-    let countryCode = pn.getCountryCode();
-    searchNumber(number, regionCode, countryCode, internationalNumber);
-  }
+  fs.readFile("./authkey.json", "utf8", (err, jsonString) => {
+    if (err) {
+      console.log("Please login again", err);
+      process.exit();
+    }
+    let cc = JSON.parse(jsonString).phones[0].countryCode;
+    let installationId = JSON.parse(jsonString).installationId;
+    let pn = PhoneNumber(argv.s.toString(), cc);
+    if (!pn.isValid()) {
+      console.log("! Invalid number");
+      return false;
+    } else {
+      let number = pn.getNumber("significant");
+      let regionCode = pn.getRegionCode();
+      let internationalNumber = pn.getNumber("e164");
+      let countryCode = pn.getCountryCode();
+      let searchNum = searchNumber(number, regionCode, installationId);
+      // console.log(JSON.parse(searchNum))
+      searchNum.then(function (response) {
+        console.log("Name :".blue, response.data[0].name.yellow);
+      });
+    }
+  });
 }
