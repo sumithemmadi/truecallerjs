@@ -36,7 +36,6 @@ function userLogin(number, regionCode, countryCode, internationalNumber) {
         region: "region-2",
         sequenceNo: 2
     };
-    console.log(params);
     const axiosInstance = axios.create({
         headers: {
             "content-type": "application/json; charset=UTF-8",
@@ -183,7 +182,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                 );
 
                 verifyOtp.then(function(result) {
-                    console.log(result);
+                 
                     if ((result.status == 2) && !result.suspended) {
                         fs.writeFile("./authkey.json", JSON.stringify(result), (err) => {
                             if (err) {
@@ -217,7 +216,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         let installationId = JSON.parse(jsonString).installationId;
         let pn = PhoneNumber(argv.s.toString(), 'IN');
         if (!pn.isValid()) {
-            console.log("! Invalid number");
+            console.log("! Invalid number".red);
             return false;
         } else {
             let number = pn.getNumber("significant");
