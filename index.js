@@ -146,10 +146,10 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
       // console.log(response);
       if (response.status == 1) {
         console.log("Otp sent successfully ".green);
-        let RequestID = response.requestId;
-        let pin =  prompt("Enter Received OTP : ");
+        // let RequestID = response.requestId;
+        const otp =  prompt("Enter Received OTP : ");
         // const pin  = otp.toString();
-        let verifyOtp = otpVerification(number,regionCode,countryCode,RequestID,pin.toString());
+        let verifyOtp = otpVerification(number,regionCode,countryCode,response.requestId,otp);
         verifyOtp.then(function (result) {
           console.log(result);
           if (result.status == 11) {
@@ -165,10 +165,10 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
       }
       else if (response.status == 9) {
         console.log("Enter 6 digits OTP sent to your mobile ".green);
-        let RequestID = response.requestId;
-        let pin =  prompt("Enter Received OTP : ");
+        //let RequestID = response.requestId;
+        const otp =  prompt("Enter Received OTP : ");
         // const pin  = otp.toString();
-        let verifyOtp = otpVerification(number,regionCode,countryCode,RequestID,pin.toString());
+        let verifyOtp = otpVerification(number,regionCode,countryCode,response.requestId,otp);
         verifyOtp.then(function (result) {
           console.log(result);
           if (result.status == 11) {
@@ -203,24 +203,3 @@ if (argv.s) {
     searchNumber(number, regionCode, countryCode, internationalNumber);
   }
 }
-
-
-// let RequestID = response.requestId
-// let otp =  prompt("Enter Received OTP : ");
-// while (otp.length != 6) {
-//   console.log("Enter valid 6 digits otp ".red);
-//   let otp =  prompt("Enter OTP : ");
-// }
-// const otpValue  = otp.toString()
-// let verifyOtp = otpVerification(number,regionCode,countryCode,RequestID,otpValue)
-// verifyOtp.then(function (result) {
-//   console.log(result);
-//   if (result.status == 11) {
-//     console.log(result.installationId);
-//   } 
-//   else if (result.status == 2 && result.suspended) {
-//     console.log("Oops... Your account got suspended.");
-//   }
-//   else {
-
-//   }
