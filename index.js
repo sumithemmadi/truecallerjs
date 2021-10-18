@@ -10,7 +10,7 @@ const fs = require("fs");
 // User login function
 function userLogin(number, regionCode, countryCode, internationalNumber) {
   console.log("Sending OTP to".yellow, internationalNumber.yellow);
-  let postdata = {
+  let params = {
     countryCode: regionCode,
     dialingCode: countryCode,
     installationDetails: {
@@ -18,7 +18,7 @@ function userLogin(number, regionCode, countryCode, internationalNumber) {
         buildVersion: 5,
         majorVersion: 11,
         minorVersion: 7,
-        store: "GOOGLE_PLAY",
+        store: "GOOGLE_PLAY"
       },
       device: {
         deviceId: generateRandomString(16),
@@ -27,13 +27,13 @@ function userLogin(number, regionCode, countryCode, internationalNumber) {
         model: "M2010J19SG",
         osName: "Android",
         osVersion: "10",
-        mobileServices: ["GMS"],
+        mobileServices: ["GMS"]
       },
-      language: "en",
+      language: "en"
     },
     phoneNumber: number,
     region: "region-2",
-    sequenceNo: 2,
+    sequenceNo: 2
   };
 
   const axiosInstance = axios.create({
@@ -41,14 +41,14 @@ function userLogin(number, regionCode, countryCode, internationalNumber) {
       "content-type": "application/json; charset=UTF-8",
       "accept-encoding": "gzip",
       "user-agent": "Truecaller/11.75.5 (Android;10)",
-      clientsecret: "lvc22mp3l1sfv6ujg83rd17btt",
+      clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
     },
   });
-  // console.log(postdata);
+  
   return axiosInstance
     .post(
       "https://account-asia-south1.truecaller.com/v2/sendOnboardingOtp",
-      postdata
+      params
     )
     .then(
       (response) => {
@@ -59,38 +59,6 @@ function userLogin(number, regionCode, countryCode, internationalNumber) {
       }
     );
 }
-
-// function otpVerification(number, Region_Code, Country_Code, requestId, token) {
-//   const postjson = {
-//     countryCode: Region_Code,
-//     dialingCode: Country_Code,
-//     phoneNumber: number,
-//     requestId,
-//     token
-//   };
-//   const axiosInstance = axios.create({
-//     headers: {
-//       "content-type": "application/json; charset=UTF-8",
-//       "accept-encoding": "gzip",
-//       "user-agent": "Truecaller/11.75.5 (Android;10)",
-//       clientsecret: "lvc22mp3l1sfv6ujg83rd17btt",
-//     },
-//   });
-//   console.log(postjson);
-//   return axiosInstance
-//     .post(
-//       "https://account-asia-south1.truecaller.com/v2/sendOnboardingOtp",
-//       postjson
-//     )
-//     .then(
-//       (response) => {
-//         return response.data;
-//       },
-//       (err) => {
-//         return err.response.data;
-//       }
-//     );
-// }
 
 function generateRandomString(length) {
   var result = "";
@@ -109,7 +77,7 @@ function searchNumber(number, regionCode, authorizationBearer) {
       "content-type": "application/json; charset=UTF-8",
       "accept-encoding": "gzip",
       "user-agent": "Truecaller/11.75.5 (Android;10)",
-      clientsecret: "lvc22mp3l1sfv6ujg83rd17btt",
+      clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
     },
   });
 
@@ -121,10 +89,10 @@ function searchNumber(number, regionCode, authorizationBearer) {
         type: 4,
         locAddr: "",
         placement: "SEARCHRESULTS,HISTORY,DETAILS",
-        encoding: "json",
+        encoding: "json"
       },
       headers: {
-        Authorization: `Bearer ${authorizationBearer}`,
+        Authorization: `Bearer ${authorizationBearer}`
       },
     })
     .then(
@@ -215,7 +183,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 
         verifyOtp.then(function (result) {
           console.log(result);
-          if (result.status == 11) {
+          if ((result.status == 11 || result.status == 2) && !result.suspended ) {
             fs.writeFile("./authkey.json", result, (err) => {
               if (err) {
                 console.log(
@@ -225,7 +193,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                 console.log("Login Successfull.".green);
               }
             });
-          } else if (result.status == 2 && result.suspended) {
+          } else if (result.suspended) {
             console.log("Oops... Your account got suspended.".red);
           } else {
             console.log("Oops... somthing went wrong.".red);
