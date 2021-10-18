@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const yargs       = require("yargs");
 const PhoneNumber = require("awesome-phonenumber");
 const prompt      = require("prompt-sync")();
