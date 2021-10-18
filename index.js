@@ -2,7 +2,6 @@ const yargs = require("yargs");
 const PhoneNumber = require("awesome-phonenumber");
 const prompt = require("prompt-sync")();
 const axios = require("axios").default;
-// var getRandomString = require("./lib/generateRandomString");
 const colors = require('colors');
 
 // User login function
@@ -65,7 +64,7 @@ function otpVerification(number,regionCode,countryCode,RequestID,otpValue){
   const postdata = {
     countryCode: regionCode,
     dialingCode: countryCode,
-    phoneNumber: number,
+    phoneNumber: number.toString,
     requestId: RequestID, 
     token: otpValue
   }
@@ -99,6 +98,7 @@ function generateRandomString(length){
   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
   for ( var i = 0; i < length; i++ ) {
+    
     result += characters.charAt(Math.floor(Math.random() * 
  charactersLength));
   }
@@ -144,29 +144,45 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
     let sendOtp = userLogin(number,regionCode, countryCode,internationalNumber);
     sendOtp.then(function (response) {
       console.log(response);
-      if (response.status == 1 || response.status == 9 ) {
-        if (response.status == 1) {
-          console.log("Otp sent successfully ".green);
-        }
-        let RequestID = response.requestId
+      if (response.status == 1) {
+        console.log("Otp sent successfully ".green);
+        let RequestID = response.requestId;
         let otp =  prompt("Enter Received OTP : ");
         while (otp.length != 6) {
           console.log("Enter valid 6 digits otp ".red);
           let otp =  prompt("Enter OTP : ");
         }
-        const otpValue  = otp.toString()
-        let verifyOtp = otpVerification(number,regionCode,countryCode,RequestID,otpValue)
-        verifyOtp.then(function (result) {
-          console.log(result);
-          console.log(result.installationId);
-        });
+      }
+      else if (response.status == 9) {
+        console.log("Enter 6 digits OTP sent to your mobile ".green);
+        let RequestID = response.requestId;
+        let otp =  prompt("Enter Received OTP : ");
+        while (otp.length != 6) {
+          console.log("Enter valid 6 digits otp ".red);
+          let otp =  prompt("Enter OTP : ");
+          process.exit()
+        }
       } else {
         console.log(response.message.red);
+        process.exit();
       }
-    })
+      // verifyOtp.then(function (result) {
+      //   console.log(result);
+      //   if (result.status == 11) {
+      //     console.log(result.installationId);
+      //   } 
+      //   else if (result.status == 2 && result.suspended) {
+      //     console.log("Oops... Your account got suspended.");
+      //   }
+      //   else {
+      //     console.log("Oops... Your account got suspended.");
+      //   }
+      // }
+    });
   }
-  // process.exit();
 }
+ 
+
 
 if (argv.s) {
   let pn = PhoneNumber(argv.s.toString(), "IN");
@@ -184,16 +200,22 @@ if (argv.s) {
 }
 
 
+// let RequestID = response.requestId
+// let otp =  prompt("Enter Received OTP : ");
+// while (otp.length != 6) {
+//   console.log("Enter valid 6 digits otp ".red);
+//   let otp =  prompt("Enter OTP : ");
+// }
+// const otpValue  = otp.toString()
+// let verifyOtp = otpVerification(number,regionCode,countryCode,RequestID,otpValue)
+// verifyOtp.then(function (result) {
+//   console.log(result);
+//   if (result.status == 11) {
+//     console.log(result.installationId);
+//   } 
+//   else if (result.status == 2 && result.suspended) {
+//     console.log("Oops... Your account got suspended.");
+//   }
+//   else {
 
-
-// deviceId: getRandomString({
-//   length: 16,
-//   charset: 'hex'
-// }),
-// lang
-// lfhiguiohglieru
-// dgihjrg
-// dgjkdgd
-// dflj;gbjmdf
-// dfgblmjd;lfgbmd
-// df;mbjd;gbl
+//   }
