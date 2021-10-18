@@ -206,9 +206,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
             }
         });
     }
-}
-
-if (argv.s  && !argv._.includes("login")) {
+} else if (argv.s  && !argv._.includes("login")) {
     fs.readFile("./authkey.json", "utf8", (err, jsonString) => {
         if (err) {
             console.log("Please login again", err);
@@ -232,4 +230,6 @@ if (argv.s  && !argv._.includes("login")) {
             });
         }
     });
+} else {
+    console.log(argv.h);
 }
