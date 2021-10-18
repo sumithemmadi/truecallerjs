@@ -187,9 +187,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                     if ((result.status == 2) && !result.suspended) {
                         fs.writeFile("./authkey.json", JSON.stringify(result), (err) => {
                             if (err) {
-                                console.log(
-                                    "Error generating authentication keys please login again"
-                                );
+                                console.log("Error generating authentication keys please login again");
                             } else {
                                 console.log("Login Successfull.".green);
                             }
@@ -212,7 +210,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 } else if (argv.s  && !argv._.includes("login")) {
     fs.readFile("./authkey.json", "utf8", (err, jsonString) => {
         if (err) {
-            console.log("Please login again", err);
+            console.log("Please login again");
             process.exit();
         }
 //        let cc = JSON.parse(jsonString).phones[0].countryCode;
