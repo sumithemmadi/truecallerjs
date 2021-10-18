@@ -16,6 +16,7 @@ truecallerjs login
 ```
 truecaller -s [number]
 ```
+or
 
 ```
 truecallerjs -s [number]
