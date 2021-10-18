@@ -4,10 +4,12 @@
   "description": "truecallerjs",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js login"
+    "test": "node index.js login",
+    "postinstall":"npm link"
   },
   "bin": {
-    "truecaller": "./bin/app.js"
+    "truecaller": "./index.js",
+    "truecallerjs":"./index.js"
   },
   "repository": {
     "type": "git",
