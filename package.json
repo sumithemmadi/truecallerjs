@@ -4,7 +4,7 @@
   "description": "truecallerjs",
   "main": "index.js",
   "scripts": {
-    "bin":"/bin/*"
+    "bin":"/bin/*",
     "test":"node index.js login"
   },
   "repository": {
