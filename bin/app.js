@@ -4,9 +4,8 @@ const yargs       = require("yargs");
 const PhoneNumber = require("awesome-phonenumber");
 const prompt      = require("prompt-sync")();
 const axios       = require("axios").default;
-const verify      = require("./src/verify");
 const colors      = require("colors");
-const truecaller  = require("./src/verify");
+const truecaller  = require("../src/verify");
 const fs          = require("fs");
 
 // User login function

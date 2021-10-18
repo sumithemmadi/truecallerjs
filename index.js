@@ -4,7 +4,6 @@ const yargs       = require("yargs");
 const PhoneNumber = require("awesome-phonenumber");
 const prompt      = require("prompt-sync")();
 const axios       = require("axios").default;
-const verify      = require("./src/verify");
 const colors      = require("colors");
 const truecaller  = require("./src/verify");
 const fs          = require("fs");
@@ -37,7 +36,7 @@ function userLogin(number, regionCode, countryCode, internationalNumber) {
         region: "region-2",
         sequenceNo: 2
     };
-
+    console.log(params);
     const axiosInstance = axios.create({
         headers: {
             "content-type": "application/json; charset=UTF-8",
@@ -216,9 +215,9 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
             console.log("Please login again", err);
             process.exit();
         }
-        let cc = JSON.parse(jsonString).phones[0].countryCode;
+//        let cc = JSON.parse(jsonString).phones[0].countryCode;
         let installationId = JSON.parse(jsonString).installationId;
-        let pn = PhoneNumber(argv.s.toString(), cc);
+        let pn = PhoneNumber(argv.s.toString(), 'IN');
         if (!pn.isValid()) {
             console.log("! Invalid number");
             return false;

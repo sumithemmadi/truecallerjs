@@ -4,8 +4,10 @@
   "description": "truecallerjs",
   "main": "index.js",
   "scripts": {
-    "bin":"/bin/*",
-    "test":"node index.js login"
+    "test": "node index.js login"
+  },
+  "bin": {
+    "truecaller": "./bin/app.js"
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,7 @@
     "axios": "^0.23.0",
     "colors": "^1.4.0",
     "path": "^0.12.7",
-    "prompt-sync": "^4.2.0",
+    "prompt-sync": "^4.1.6",
     "randombytes": "^2.1.0",
     "yargs": "^17.2.1"
   }
