@@ -1,5 +1,4 @@
 const axios = require('axios');
-
 const axiosInstance = axios.create({
 	headers: {
 		"content-type": "application/json; charset=UTF-8",
@@ -8,7 +7,6 @@ const axiosInstance = axios.create({
 		clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
 	}
 });
-
 const truecaller = {
 	verifyOtp: (phoneNumber, countryCode, dialingCode, requestId, token) => {
 		const postData = {
@@ -18,20 +16,12 @@ const truecaller = {
 			requestId,
 			token
 		};
-		return axiosInstance
-			.post(
-				`https://account-asia-south1.truecaller.com/v1/verifyOnboardingOtp`,
-				postData
-			)
-			.then(
-				(response) => {
-					return response.data;
-				},
-				(err) => {
-					return err.response.data;
-				}
-			);
+		return axiosInstance.post(`https://account-asia-south1.truecaller.com/v1/verifyOnboardingOtp`, postData).then(
+			(response) => {
+				return response.data;
+			}, (err) => {
+				return err.response.data;
+			});
 	}
 };
-
 module.exports = truecaller;
