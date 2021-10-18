@@ -185,7 +185,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 
                 verifyOtp.then(function(result) {
                     console.log(result);
-                    if ((result.status == 11 || result.status == 2) && !result.suspended) {
+                    if ((result.status == 2) && !result.suspended) {
                         fs.writeFile("./authkey.json", JSON.stringify(result), (err) => {
                             if (err) {
                                 console.log(
@@ -195,6 +195,8 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                                 console.log("Login Successfull.".green);
                             }
                         });
+                    } else if (result.status == 11) {
+                         console.log("! Invalid OTP ");
                     } else if (result.suspended) {
                         console.log("Oops... Your account got suspended.".red);
                     } else {
