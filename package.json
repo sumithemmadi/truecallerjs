@@ -7,7 +7,9 @@
     "test": "node index.js login",
     "postinstall": "npm link && npm audit fix && exit"
   },
-  "bin": "./bin",
+  "bin": {
+    "truecallerjs":"./bin/truecallerjs.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sumithemmadi/truecallerjs.git"
