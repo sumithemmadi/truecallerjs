@@ -30,7 +30,6 @@
     "axios": "^0.23.0",
     "chalk": "^4.1.2",
     "colors": "^1.4.0",
-    "path": "^0.12.7",
     "prompt-sync": "^4.1.6",
     "randombytes": "^2.1.0",
     "yargs": "^17.2.1"
