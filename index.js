@@ -176,7 +176,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
             if (response.status == 1 || response.status == 9) {
                 console.log("Otp sent successfully ".green);
                 const otp = prompt("Enter Received OTP : ");
-                let verifyOtp = truecaller.verifyOtp(
+                let verifyOtp = truecallerjs.verifyOtp(
                     number,
                     regionCode,
                     countryCode,
