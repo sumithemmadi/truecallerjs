@@ -8,7 +8,7 @@ const colors       = require("colors");
 const truecallerjs = require("./src/verify");
 const path         = require('path')
 const fs           = require("fs");
-const authkey      = path.join(__dirname, '.', 'authkey.json')
+const authkey      = path.join(__dirname, './.secret', 'authkey.json')
 
 
 // User login function
