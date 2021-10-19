@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node index.js login",
-    "postinstall": "npm link"
+    "postinstall": "npm link && npm audit fix && exit 1"
   },
   "bin": {
     "truecaller": "index.js",
