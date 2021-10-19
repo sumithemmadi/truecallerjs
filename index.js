@@ -7,6 +7,8 @@ const axios       = require("axios").default;
 const colors      = require("colors");
 const truecaller  = require("./src/verify");
 const fs          = require("fs");
+const authkey = path.join(__dirname, '.', 'authkey.json')
+
 
 // User login function
 function userLogin(number, regionCode, countryCode, internationalNumber) {
@@ -184,7 +186,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                 verifyOtp.then(function(result) {
                  
                     if ((result.status == 2) && !result.suspended) {
-                        fs.writeFile("./authkey.json", JSON.stringify(result,null, 4), (err) => {
+                        fs.writeFile(authkey, JSON.stringify(result,null, 4), (err) => {
                             if (err) {
                                 console.log("Error generating authentication keys please login again".red);
                             } else {
@@ -207,7 +209,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         });
     }
 } else if (argv.s  && !argv._.includes("login")) {
-    fs.readFile("./authkey.json", "utf8", (err, jsonString) => {
+    fs.readFile(authkey, "utf8", (err, jsonString) => {
         if (err) {
             console.log("Please login again".yellow);
             process.exit();
