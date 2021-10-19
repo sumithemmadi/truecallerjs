@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
-const yargs       = require("yargs");
-const PhoneNumber = require("awesome-phonenumber");
-const prompt      = require("prompt-sync")();
-const axios       = require("axios").default;
-const colors      = require("colors");
-const truecaller  = require("./src/verify");
-const fs          = require("fs");
-const authkey = path.join(__dirname, '.', 'authkey.json')
+const yargs        = require("yargs");
+const PhoneNumber  = require("awesome-phonenumber");
+const prompt       = require("prompt-sync")();
+const axios        = require("axios").default;
+const colors       = require("colors");
+const truecallerjs = require("./src/verify");
+const path         = require('path')
+const fs           = require("fs");
+const authkey      = path.join(__dirname, '.', 'authkey.json')
 
 
 // User login function
