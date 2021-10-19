@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
 		clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
 	}
 });
-const truecaller = {
+const truecallerjs = {
 	verifyOtp: (phoneNumber, countryCode, dialingCode, requestId, token) => {
 		const postData = {
 			countryCode,
@@ -24,4 +24,4 @@ const truecaller = {
 			});
 	}
 };
-module.exports = truecaller;
+module.exports = truecallerjs;
