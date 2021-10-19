@@ -8,7 +8,6 @@
     "postinstall": "npm link && npm audit fix && exit 1"
   },
   "bin": "./bin",
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sumithemmadi/truecallerjs.git"
