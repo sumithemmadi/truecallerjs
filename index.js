@@ -184,7 +184,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                 verifyOtp.then(function(result) {
                  
                     if ((result.status == 2) && !result.suspended) {
-                        fs.writeFile("./authkey.json", JSON.stringify(result), (err) => {
+                        fs.writeFile("./authkey.json", JSON.stringify(result,null, 4), (err) => {
                             if (err) {
                                 console.log("Error generating authentication keys please login again".red);
                             } else {
