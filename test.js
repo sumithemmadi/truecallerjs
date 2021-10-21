@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 
-const yargs       = require("yargs");
-const PhoneNumber = require("awesome-phonenumber");
-var readlineSync  = require('readline-sync');
-const axios       = require("axios").default;
-const colors      = require("colors");
-const login       = require("./src/main");
-const path        = require('path')
-const fs          = require("fs");
-const authkey     = path.join(__dirname, './.secret', 'authkey.json')
+const yargs        = require("yargs");
+const PhoneNumber  = require("awesome-phonenumber");
+var readlineSync   = require('readline-sync');
+const axios        = require("axios").default;
+const colors       = require("colors");
+const login        = require("./src/main");
+const truecallerjs = require("./src/truecallerjs");
+const path         = require('path')
+const fs           = require("fs");
+const authkey      = path.join(__dirname, './.secret', 'authkey.json')
 
 const argv = yargs
     .usage(
@@ -75,8 +76,8 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         }
         let countryCode = JSON.parse(jsonString).phones[0].countryCode;
         let installationId = JSON.parse(jsonString).installationId;
-        let pn = PhoneNumber(argv.s.toString(), countryCode );
-        let searchNum = searchNumber(pn.getNumber("significant"), pn.getRegionCode(), installationId);
+        // let pn = PhoneNumber(argv.s.toString(), countryCode );
+        let searchNum = truecallerjs.searchNumber(argv.s ,countryCode, installationId);
         // console.log(JSON.parse(searchNum))
         searchNum.then(function(response) {
             console.log("Name :".blue, response.data[0].name.yellow);
