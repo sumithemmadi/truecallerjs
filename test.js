@@ -31,6 +31,10 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
     console.log("Login\n\n Enter mobile number in international formate\n Example : +919912345678.\n".blue);
     var inputNumber = readlineSync.question('Enter Mobile Number : ');
     let pn = PhoneNumber(inputNumber.toString());
+    if (inputNumber != pn.getNumber("e164")){
+        console.log("Enter valid phone number in international formate".red);
+        process.exit();
+    }
     let sendOtp = login.userLogin(inputNumber, pn.getRegionCode());
     sendOtp.then(function(response) {
         if (response.status == 1 || response.status == 9) {
