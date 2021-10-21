@@ -60,4 +60,22 @@ function generateRandomString(length) {
     }
     return result;
 }
+
+function verifyOtp(phoneNumber, countryCode, dialingCode, requestId, token) {
+    const postData = {
+        countryCode,
+        dialingCode,
+        phoneNumber,
+        requestId,
+        token
+    };
+    return axiosConfig.post(`https://account-asia-south1.truecaller.com/v1/verifyOnboardingOtp`, postData).then(
+        (response) => {
+            return response.data;
+        }, (err) => {
+            return err.response.data;
+        });
+}
+
 module.exports.userLogin = userLogin
+module.exports.verifyOtp = verifyOtp
