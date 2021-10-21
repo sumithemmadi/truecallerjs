@@ -67,6 +67,22 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 
         }
     });
+} else if (argv.s  && !argv._.includes("login")) {
+    fs.readFile(authkey, "utf8", (err, jsonString) => {
+        if (err) {
+            console.log("Please login to your truecaller account".yellow);
+            process.exit();
+        }
+        let countryCode = JSON.parse(jsonString).phones[0].countryCode;
+        let installationId = JSON.parse(jsonString).installationId;
+        let pn = PhoneNumber(argv.s.toString(), countryCode );
+        let searchNum = searchNumber(pn.getNumber("significant"), pn.getRegionCode(), installationId);
+        // console.log(JSON.parse(searchNum))
+        searchNum.then(function(response) {
+            console.log("Name :".blue, response.data[0].name.yellow);
+        });
+    });
 } else {
     yargs.showHelp();
 }
+
