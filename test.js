@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-const yargs        = require("yargs");
-const PhoneNumber  = require("awesome-phonenumber");
-var readlineSync   = require('readline-sync');
-const axios        = require("axios").default;
-const colors       = require("colors");
+const yargs = require("yargs");
+const PhoneNumber = require("awesome-phonenumber");
+var readlineSync = require('readline-sync');
+const axios = require("axios").default;
+const colors = require("colors");
 const truecallerjs = require("./src/verify");
-const path         = require('path')
-const fs           = require("fs");
-const authkey      = path.join(__dirname, './.secret', 'authkey.json')
+const path = require('path')
+const fs = require("fs");
+const authkey = path.join(__dirname, './.secret', 'authkey.json')
 
 const argv = yargs
     .usage(
@@ -30,43 +30,43 @@ const argv = yargs
 if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
     console.log("Login\n\n Enter mobile number in international formate\n Example : +919912345678.\n".blue);
     var inputNumber = readlineSync.question('Enter Mobile Number : ');
-    let sendOtp = userLogin(inputNumber,regionCode);
+    let sendOtp = userLogin(inputNumber, regionCode);
     sendOtp.then(function(response) {
         if (response.status == 1 || response.status == 9) {
-             console.log("Otp sent successfully ".green);
-             const otp =  readlineSync.question('Enter Received OTP: ');
-             let verifyOtp = truecallerjs.verifyOtp(number,regionCode,countryCode,response.requestId,otp);
-             verifyOtp.then(function(result) {
-                 if ((result.status == 2) && !result.suspended) {
-                        fs.writeFile(authkey, JSON.stringify(result,null, 4), (err) => {
-                            if (err) {
-                                console.log("Error generating authentication keys please login again".red);
-                            } else {
-                                console.log("Login Successfull.".green);
-                            }
-                        });
-                    } else if (result.status == 11) {
-                         console.log("! Invalid OTP ".orange);
-                    } else if (result.suspended) {
-                        console.log("Oops... Your account got suspended.".red);
-                    } else {
-                        console.log("Oops... somthing went wrong.".red);
-                    }
-                });
+            console.log("Otp sent successfully ".green);
+            const otp = readlineSync.question('Enter Received OTP: ');
+            let verifyOtp = truecallerjs.verifyOtp(number, regionCode, countryCode, response.requestId, otp);
+            verifyOtp.then(function(result) {
+                if ((result.status == 2) && !result.suspended) {
+                    fs.writeFile(authkey, JSON.stringify(result, null, 4), (err) => {
+                        if (err) {
+                            console.log("Error generating authentication keys please login again".red);
+                        } else {
+                            console.log("Login Successfull.".green);
+                        }
+                    });
+                } else if (result.status == 11) {
+                    console.log("! Invalid OTP ".orange);
+                } else if (result.suspended) {
+                    console.log("Oops... Your account got suspended.".red);
+                } else {
+                    console.log("Oops... somthing went wrong.".red);
+                }
+            });
 
-            } else {
-                console.log(response.message.red);
-                process.exit();
-            }
-        });
-    }
-} else if (argv.s  && !argv._.includes("login")) {
+        } else {
+            console.log(response.message.red);
+            process.exit();
+
+        }
+    });
+} else if (argv.s && !argv._.includes("login")) {
     fs.readFile(authkey, "utf8", (err, jsonString) => {
         if (err) {
             console.log("Please login to your truecaller account".yellow);
             process.exit();
         }
-//        let cc = JSON.parse(jsonString).phones[0].countryCode;
+        //        let cc = JSON.parse(jsonString).phones[0].countryCode;
         let installationId = JSON.parse(jsonString).installationId;
         let pn = PhoneNumber(argv.s.toString(), 'IN');
         if (!pn.isValid()) {
