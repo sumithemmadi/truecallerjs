@@ -2,7 +2,7 @@ const axios = require("axios");
 const PhoneNumber  = require("awesome-phonenumber");
 
 const truecallerjs = {
-    searchNumber: (inputNumber, regionCode, authorizationBearer) => {
+    searchNumber: (inputNumber, regionCode, installationId) => {
         let pn = PhoneNumber(inputNumber.toString(), regionCode);
         return axios.get(`https://search5-noneu.truecaller.com/v2/search`, {
             params: {
@@ -18,7 +18,7 @@ const truecallerjs = {
                 "accept-encoding": "gzip",
                 "user-agent": "Truecaller/11.75.5 (Android;10)",
                 clientsecret: "lvc22mp3l1sfv6ujg83rd17btt",
-                Authorization: `Bearer ${authorizationBearer}`
+                Authorization: `Bearer ${installationId}`
             },
         }).then(
             (response) => {
