@@ -1,10 +1,23 @@
-const axios = require('axios')
+const axios        = require("axios");
+const PhoneNumber  = require("awesome-phonenumber");
 
-function userLogin(number, regionCode, countryCode, internationalNumber) {
+
+const axiosConfig = axios.create({
+        headers: {
+            "content-type": "application/json; charset=UTF-8",
+            "accept-encoding": "gzip",
+            "user-agent": "Truecaller/11.75.5 (Android;10)",
+            clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
+        }
+    });
+
+function userLogin(inputNumber,regionCode) {
     console.log("Sending OTP to".yellow, internationalNumber.yellow);
+    let pn = PhoneNumber(inputNumber.toString(), regionCode);
+
     let params = {
-        countryCode: regionCode,
-        dialingCode: countryCode,
+        countryCode: pn.getRegionCode(),
+        dialingCode: pn.getCountryCode(),
         installationDetails: {
             app: {
                 buildVersion: 5,
@@ -23,20 +36,12 @@ function userLogin(number, regionCode, countryCode, internationalNumber) {
             },
             language: "en"
         },
-        phoneNumber: number,
+        phoneNumber: pn.getNumber('significant'),
         region: "region-2",
         sequenceNo: 2
     };
-    const axiosInstance = axios.create({
-        headers: {
-            "content-type": "application/json; charset=UTF-8",
-            "accept-encoding": "gzip",
-            "user-agent": "Truecaller/11.75.5 (Android;10)",
-            clientsecret: "lvc22mp3l1sfv6ujg83rd17btt"
-        }
-    });
 
-    return axiosInstance
+    return axiosConfig
         .post(
             "https://account-asia-south1.truecaller.com/v2/sendOnboardingOtp",
             params
