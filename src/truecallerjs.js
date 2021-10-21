@@ -1,7 +1,9 @@
 const axios = require("axios");
+const PhoneNumber  = require("awesome-phonenumber");
 
 const truecallerjs = {
-    searchNumber: (number, regionCode, authorizationBearer) => {
+    searchNumber: (inputNumber, regionCode, authorizationBearer) => {
+        let pn = PhoneNumber(inputNumber.toString(), 'IN');
         return axios.get(`https://search5-noneu.truecaller.com/v2/search`, {
             params: {
                 q: number,
