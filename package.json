@@ -4,8 +4,7 @@
   "description": "truecallerjs",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js login",
-    "postinstall": "npm link && npm audit fix && exit"
+    "test": "node index.js login"
   },
   "bin": {
     "truecallerjs": "./bin/truecallerjs.js"
