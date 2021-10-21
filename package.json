@@ -8,7 +8,7 @@
     "postinstall": "npm link && npm audit fix && exit"
   },
   "bin": {
-    "truecallerjs":"./bin/truecallerjs.js"
+    "truecallerjs": "./bin/truecallerjs.js"
   },
   "repository": {
     "type": "git",
@@ -29,8 +29,8 @@
     "axios": "^0.23.0",
     "chalk": "^4.1.2",
     "colors": "^1.4.0",
-    "prompt-sync": "^4.1.6",
     "randombytes": "^2.1.0",
+    "readline-sync": "^1.4.10",
     "yargs": "^17.2.1"
   },
   "directories": {
