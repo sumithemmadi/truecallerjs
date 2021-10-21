@@ -2,7 +2,7 @@
 
 const yargs        = require("yargs");
 const PhoneNumber  = require("awesome-phonenumber");
-const prompt       = require("prompt-sync")();
+var readlineSync = require('readline-sync');
 const axios        = require("axios").default;
 const colors       = require("colors");
 const truecallerjs = require("../src/verify");
@@ -154,7 +154,8 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         "Login\n\n Enter mobile number in international formate\n Example : +919912345678.\n"
         .blue
     );
-    const inputNumber = prompt("Enter You Mobile Number : ");
+    var inputNumber = readlineSync.question('Enter Mobile Number : ');
+
     let pn = PhoneNumber(inputNumber.toString());
     if (!pn.isValid()) {
         console.log("! Invalid number".red);
@@ -175,7 +176,8 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         sendOtp.then(function(response) {
             if (response.status == 1 || response.status == 9) {
                 console.log("Otp sent successfully ".green);
-                const otp = prompt("Enter Received OTP : ");
+                const otp =  readlineSync.question('Enter Received OTP: ');
+
                 let verifyOtp = truecallerjs.verifyOtp(
                     number,
                     regionCode,
