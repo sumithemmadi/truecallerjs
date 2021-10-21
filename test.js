@@ -49,7 +49,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                         } else {
                             console.log("Login Successfull.".green);
                             console.log("Your installationId : ".blue, result.installationId.green);
-                            console.log('authkey.json file saved to secret folder');
+                            console.log('authkey.json file saved to secret folder'.yellow);
                         }
                     });
                 } else if (result.status == 11) {
