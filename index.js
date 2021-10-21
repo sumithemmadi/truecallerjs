@@ -2,7 +2,7 @@
 
 const yargs        = require("yargs");
 const PhoneNumber  = require("awesome-phonenumber");
-var readlineSync = require('readline-sync');
+var readlineSync   = require('readline-sync');
 const axios        = require("axios").default;
 const colors       = require("colors");
 const truecallerjs = require("./src/verify");
