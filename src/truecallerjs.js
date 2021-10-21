@@ -3,11 +3,11 @@ const PhoneNumber  = require("awesome-phonenumber");
 
 const truecallerjs = {
     searchNumber: (inputNumber, regionCode, authorizationBearer) => {
-        let pn = PhoneNumber(inputNumber.toString(), 'IN');
+        let pn = PhoneNumber(inputNumber.toString(), regionCode);
         return axios.get(`https://search5-noneu.truecaller.com/v2/search`, {
             params: {
-                q: number,
-                countryCode: regionCode,
+                q: pn.getNumber('significant'),
+                countryCode: pn.getRegionCode(),
                 type: 4,
                 locAddr: "",
                 placement: "SEARCHRESULTS,HISTORY,DETAILS",
