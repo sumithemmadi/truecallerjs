@@ -11,7 +11,7 @@ const axiosConfig = axios.create({
         }
     });
 
-function userLogin(inputNumber,regionCode) {
+function userLogin(inputNumber,regionCode,internationalNumber) {
     console.log("Sending OTP to".yellow, internationalNumber.yellow);
     let pn = PhoneNumber(inputNumber.toString(), regionCode);
 
