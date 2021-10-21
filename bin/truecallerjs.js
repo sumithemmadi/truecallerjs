@@ -214,7 +214,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 } else if (argv.s  && !argv._.includes("login")) {
     fs.readFile(authkey, "utf8", (err, jsonString) => {
         if (err) {
-            console.log("Please login again".yellow);
+            console.log("Please login to your truecaller account".yellow);
             process.exit();
         }
 //        let cc = JSON.parse(jsonString).phones[0].countryCode;
