@@ -30,12 +30,13 @@ const argv = yargs
 if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
     console.log("Login\n\n Enter mobile number in international formate\n Example : +919912345678.\n".blue);
     var inputNumber = readlineSync.question('Enter Mobile Number : ');
-    let sendOtp = login.userLogin(inputNumber, regionCode);
+    let pn = PhoneNumber(inputNumber.toString());
+    let sendOtp = login.userLogin(inputNumber, pn.getRegionCode());
     sendOtp.then(function(response) {
         if (response.status == 1 || response.status == 9) {
             console.log("Otp sent successfully ".green);
             const otp = readlineSync.question('Enter Received OTP: ');
-            let verifyOtp = login.verifyOtp(number, regionCode, countryCode, response.requestId, otp);
+            let verifyOtp = login.verifyOtp(number, pn.getRegionCode(), pn.getCountryCode(), response.requestId, otp);
             verifyOtp.then(function(result) {
                 if ((result.status == 2) && !result.suspended) {
                     fs.writeFile(authkey, JSON.stringify(result, null, 4), (err) => {
