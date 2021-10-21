@@ -35,7 +35,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         console.log("Enter valid phone number in international formate".red);
         process.exit();
     }
-    let sendOtp = login.userLogin(inputNumber, pn.getRegionCode());
+    let sendOtp = login.userLogin(inputNumber, pn.getRegionCode(),pn.getNumber("e164"));
     sendOtp.then(function(response) {
         if (response.status == 1 || response.status == 9) {
             console.log("Otp sent successfully ".green);
