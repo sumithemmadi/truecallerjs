@@ -1,6 +1,21 @@
 const axios = require("axios");
 const PhoneNumber  = require("awesome-phonenumber");
 
+function groupChildren(obj) {
+  for(prop in obj) {
+    if (typeof obj[prop] === 'object') {
+      groupChildren(obj[prop]);
+    } else {
+      obj['$'] = obj['$'] || {};
+      obj['$'][prop] = obj[prop];
+      delete obj[prop];
+    }
+  }
+
+  return obj;
+}
+
+
 const truecallerjs = {
     searchNumber: (inputNumber, regionCode, installationId) => {
         let pn = PhoneNumber(inputNumber.toString(), regionCode);
