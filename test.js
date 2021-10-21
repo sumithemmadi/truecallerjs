@@ -40,7 +40,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         if (response.status == 1 || response.status == 9) {
             console.log("Otp sent successfully ".green);
             const otp = readlineSync.question('Enter Received OTP: ');
-            let verifyOtp = login.verifyOtp(number, pn.getRegionCode(), pn.getCountryCode(), response.requestId, otp);
+            let verifyOtp = login.verifyOtp(pn.getNumber('significant'), pn.getRegionCode(), pn.getCountryCode(), response.requestId, otp);
             verifyOtp.then(function(result) {
                 if ((result.status == 2) && !result.suspended) {
                     fs.writeFile(authkey, JSON.stringify(result, null, 4), (err) => {
