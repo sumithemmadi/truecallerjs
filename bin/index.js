@@ -43,13 +43,14 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
             const otp = readlineSync.question('Enter Received OTP: ');
             let verifyOtp = login.verifyOtp(pn.getNumber('significant'), pn.getRegionCode(), pn.getCountryCode(), response.requestId, otp);
             verifyOtp.then(function(result) {
+               //  console.log(result);
                 if ((result.status == 2) && !result.suspended) {
+                    console.log("Your installationId : ".blue,result.installationId.green);
                     fs.writeFile(authkey, JSON.stringify(result, null, 4), (err) => {
                         if (err) {
-                            console.log("Error generating authentication keys please login again".red);
+                            console.log("Error creating authkey.json file . please login again".red);
                         } else {
                             console.log("Login Successfull.".green);
-                            console.log("Your installationId : ".blue, result.installationId.green);
                             console.log('authkey.json file saved to secret folder'.yellow);
                         }
                     });
