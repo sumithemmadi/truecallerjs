@@ -36,7 +36,8 @@ sn.then(function(response) {
     console.log(response);
 });
 ```
-Here,mobile number is **US** and default country code is **IN**.
+Here,mobile number is an  **US**  number  and default country code is **IN**.
+
 If mobile number is not in **E164** Format then Default Country Code will be considered as a countryCode of that Mobile Number.
 
 ## Login
