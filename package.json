@@ -26,8 +26,8 @@
   "dependencies": {
     "awesome-phonenumber": "^2.64.0",
     "axios": "^0.23.0",
-    "chalk": "^4.1.2",
     "colors": "^1.4.0",
+    "crypto": "^1.0.1",
     "randombytes": "^2.1.0",
     "readline-sync": "^1.4.10",
     "xml2js": "^0.4.23",
