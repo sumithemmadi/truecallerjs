@@ -72,7 +72,7 @@ truecallerjs --installationid
 ```
 or
 ```
-truecallerjs -iid
+truecallerjs -i
 ```
 ## Searching a number
 Tor search a number enter below command.

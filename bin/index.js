@@ -18,17 +18,12 @@ const argv = yargs
     .option("search", {
         alias: "s",
         description: "To search caller name and related iformation of a number",
-        type: "charecter",
+        type: "charecter"
     })
     .option("installationid", {
-        alias: "iid",
+        alias: "i",
         description: "shows your InstallationId",
-        type: "boolean",
-    })
-    .option("json", {
-        alias: "js",
-        description: "To print output in json",
-        type: "boolean",
+        type: "boolean"
     })
     .help()
     .alias("help", "h").argv;
@@ -88,7 +83,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
             console.log("Name :".blue, response.data[0].name.yellow);
         });
     });
-} else if (argv.iid) {
+} else if (argv.i) {
     fs.readFile(authkey, "utf8", (err, jsonString) => {
         if (err) {
             console.log("Please login to your truecaller account to know your InstallationId".yellow);
