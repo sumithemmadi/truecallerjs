@@ -45,7 +45,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
             verifyOtp.then(function(result) {
                //  console.log(result);
                 if ((result.status == 2) && !result.suspended) {
-                    console.log("Your installationId : ".blue,result.installationId.pink);
+                    console.log("Your installationId : ".blue,result.installationId.yellow);
                     fs.writeFile(authkey, JSON.stringify(result, null, 4), (err) => {
                         if (err) {
                             console.log("Error creating authkey.json file . please login again".red);
@@ -54,7 +54,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                             console.log('authkey.json file saved to secret folder'.yellow);
                         }
                     });
-                } else if (result.status == 11) {
+                } else if (result.status  == 11) {
                     console.log("! Invalid OTP ".orange);
                 } else if (result.suspended) {
                     console.log("Oops... Your account got suspended.".red);
@@ -81,7 +81,8 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         let searchNum = truecallerjs.searchNumber(argv.s ,countryCode, installationId);
         // console.log(JSON.parse(searchNum))
         searchNum.then(function(response) {
-            console.log(JSON.stringify(response,null,4));
+            const data  = JSON.stringify(response,null,4);
+            console.log(data);
         });
     });
 } else if (argv.i) {
@@ -92,7 +93,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         }
         let countryCode = JSON.parse(jsonString).phones[0].countryCode;
         let installationId = JSON.parse(jsonString).installationId;
-        console.log("Your InstallationId : ".blue,installationId.pink);
+        console.log("Your InstallationId : ".blue,installationId.yellow);
     });
 } else {
     yargs.showHelp();
