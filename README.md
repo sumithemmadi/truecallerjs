@@ -66,7 +66,7 @@ To know your InstallationId , install the package globally.
 npm install -g  truecallerjs
 ```
 
-> After  **Successfully Login** your InstallationId will be saved as **authkey.json** in **.secret** folder of this package.
+> After  **Successfully Login** your InstallationId will be saved as **authkey.json** in **.secret** folder of this package **node_modules**.
 
 Enter the below command to see your **InstallationId**.
 ```
