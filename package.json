@@ -28,7 +28,6 @@
     "axios": "^0.23.0",
     "chalk": "^4.1.2",
     "colors": "^1.4.0",
-    "json-colorizer": "^2.2.2",
     "randombytes": "^2.1.0",
     "readline-sync": "^1.4.10",
     "xml2js": "^0.4.23",

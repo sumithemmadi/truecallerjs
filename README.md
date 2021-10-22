@@ -9,7 +9,7 @@ A module to search phone number details with truecaller.
 ## Installation
 
 ```bash
-npm install -g truecallerjs
+npm install truecallerjs
 ```
 ## Usage
 
@@ -38,13 +38,16 @@ sn.then(function(response) {
 ```
 Here,mobile number is an  **US**  number  and default country code is **IN**.
 
-If mobile number is not in **E164** Format then Default Country Code will be considered as a countryCode of that Mobile Number.
+If mobile number is not in **E164** Format then **Default Country Code** will be considered as a countryCode of that Mobile Number.
 
-## Login
+## Command Line Usage
+### Login
 Install this npm package globally
+
 ```
 npm install -g  truecallerjs
 ```
+
 Then  login to your truecaller account 
 ```
 truecallerjs login
@@ -57,7 +60,7 @@ truecallerjs -s [number]
 ```
 
 
-## InstallationId
+### InstallationId
 To know your InstallationId , install the package globally.
 
 ```

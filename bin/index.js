@@ -55,7 +55,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                         }
                     });
                 } else if (result.status  == 11) {
-                    console.log("! Invalid OTP ".orange);
+                    console.log("! Invalid OTP ".red);
                 } else if (result.suspended) {
                     console.log("Oops... Your account got suspended.".red);
                 } else {
