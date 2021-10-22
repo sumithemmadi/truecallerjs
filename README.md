@@ -36,21 +36,46 @@ sn.then(function(response) {
     console.log(response);
 });
 ```
+Here,mobile number is **US** and default country code is **IN**.
+If mobile number is not in **E164** Format then Default Country Code will be considered as a countryCode of that Mobile Number.
 
 ## Login
-
-You need to login into your truecaller account first.
-
+Install this npm package globally
+```
+npm install -g  truecallerjs
+```
+Then  login to your truecaller account 
 ```
 truecallerjs login
 ```
-## InstallationId
-After **Successfully Login** your InstallationId will be saved as **authkey.json** in **.secret** folder.
-
-## Searching a number
+### Searching a number
 Tor search a number enter below command.
 
 ```
 truecallerjs -s [number]
 ```
 
+
+## InstallationId
+To know your InstallationId , install the package globally.
+
+```
+npm install -g  truecallerjs
+```
+
+> After  **Successfully Login** your InstallationId will be saved as **authkey.json** in **.secret** folder if you clone this repository.
+
+Enter the below command to see your **InstallationId**.
+```
+truecallerjs --installationid
+```
+or
+```
+truecallerjs -iid
+```
+## Searching a number
+Tor search a number enter below command.
+
+```
+truecallerjs -s [number]
+```
