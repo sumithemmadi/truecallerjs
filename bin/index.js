@@ -86,4 +86,3 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 } else {
     yargs.showHelp();
 }
-
