@@ -20,7 +20,7 @@ const truecallerjs = require('truecallerjs');
 
 var sn = truecallerjs.searchNumber("912345678", 'IN', "YOUR_TRUECALLER_INSTALLATION_ID");
 sn.then(function(response) {
-    console.log(response);
+    console.log(JSON.stringify(response,null,4))
 });
 
 ```
@@ -33,7 +33,7 @@ const truecallerjs = require('truecallerjs');
 
 var sn = truecallerjs.searchNumber("+12122005989", 'IN', "YOUR_TRUECALLER_INSTALLATION_ID");
 sn.then(function(response) {
-    console.log(response);
+    console.log(JSON.stringify(response,null,4));
 });
 ```
 Here,mobile number is an  **US**  number  and default country code is **IN**.
