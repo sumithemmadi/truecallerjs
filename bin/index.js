@@ -20,8 +20,13 @@ const argv = yargs
         description: "To search caller name and related iformation of a number",
         type: "charecter",
     })
+    .option("installationid", {
+        alias: "iid",
+        description: "shows your InstallationId",
+        type: "boolean",
+    })
     .option("json", {
-        alias: "json",
+        alias: "js",
         description: "To print output in json",
         type: "boolean",
     })
@@ -82,6 +87,16 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         searchNum.then(function(response) {
             console.log("Name :".blue, response.data[0].name.yellow);
         });
+    });
+} else if (argv.iid) {
+    fs.readFile(authkey, "utf8", (err, jsonString) => {
+        if (err) {
+            console.log("Please login to your truecaller account to know your InstallationId".yellow);
+            process.exit();
+        }
+        let countryCode = JSON.parse(jsonString).phones[0].countryCode;
+        let installationId = JSON.parse(jsonString).installationId;
+        console.log("Your InstallationId : ",installationId);
     });
 } else {
     yargs.showHelp();
