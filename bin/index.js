@@ -92,7 +92,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         }
         let countryCode = JSON.parse(jsonString).phones[0].countryCode;
         let installationId = JSON.parse(jsonString).installationId;
-        console.log("Your InstallationId : ",installationId);
+        console.log("Your InstallationId : ".blue,installationId.pink);
     });
 } else {
     yargs.showHelp();
