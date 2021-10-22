@@ -45,7 +45,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
             verifyOtp.then(function(result) {
                //  console.log(result);
                 if ((result.status == 2) && !result.suspended) {
-                    console.log("Your installationId : ".blue,result.installationId.green);
+                    console.log("Your installationId : ".blue,result.installationId.pink);
                     fs.writeFile(authkey, JSON.stringify(result, null, 4), (err) => {
                         if (err) {
                             console.log("Error creating authkey.json file . please login again".red);
