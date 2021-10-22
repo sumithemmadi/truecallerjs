@@ -1,4 +1,6 @@
 # Truecallerjs
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsumithemmadi%2Ftruecallerjs.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsumithemmadi%2Ftruecallerjs?ref=badge_shield)
+
 
 A module to search phone number details with truecaller.
 
@@ -82,3 +84,7 @@ Tor search a number enter below command.
 ```
 truecallerjs -s [number]
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsumithemmadi%2Ftruecallerjs.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsumithemmadi%2Ftruecallerjs?ref=badge_large)
