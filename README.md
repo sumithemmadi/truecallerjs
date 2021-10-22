@@ -8,18 +8,17 @@ A module to search phone number details with truecaller.
 
 ## Installation
 
-
 ```bash
 npm install -g truecallerjs
 ```
 ## Usage
 
 ```js
-const truecallerjs = require(".");
+const truecallerjs = require('truecallerjs');
 
 // truecallerjs.searchNumber("MOBILE_NUMBER", "DEFAULT_COUNTRY_CODE", "YOUR_TRUECALLER_INSTALLATION_ID")
 
-var sn = truecallerjs.searchNumber("9912345678", 'IN', "YOUR_TRUECALLER_INSTALLATION_ID");
+var sn = truecallerjs.searchNumber("912345678", 'IN', "YOUR_TRUECALLER_INSTALLATION_ID");
 sn.then(function(response) {
     console.log(response);
 });
@@ -28,11 +27,11 @@ sn.then(function(response) {
 If you use mobile number with dialingCode.
 
 ```js
-const truecallerjs = require(".");
+const truecallerjs = require('truecallerjs');
 
 // truecallerjs.searchNumber("MOBILE_NUMBER", "DEFAULT_COUNTRY_CODE", "YOUR_TRUECALLER_INSTALLATION_ID")
 
-var sn = truecallerjs.searchNumber("9912345678", 'IN', "YOUR_TRUECALLER_INSTALLATION_ID");
+var sn = truecallerjs.searchNumber("+12122005989", 'IN', "YOUR_TRUECALLER_INSTALLATION_ID");
 sn.then(function(response) {
     console.log(response);
 });
@@ -45,6 +44,8 @@ You need to login into your truecaller account first.
 ```
 truecallerjs login
 ```
+## InstallationId
+After **Successfully Login** your InstallationId will be saved as **authkey.json** in **.secret** folder.
 
 ## Searching a number
 Tor search a number enter below command.
