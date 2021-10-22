@@ -9,7 +9,7 @@ const login        = require("../lib/main");
 const truecallerjs = require("../lib/truecallerjs");
 const path         = require('path')
 const fs           = require("fs");
-const authkey      = path.join(__dirname, './.secret', 'authkey.json')
+const authkey      = path.join(__dirname, '../.secret', 'authkey.json')
 
 const argv = yargs
     .usage(
