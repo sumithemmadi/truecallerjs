@@ -3,8 +3,8 @@
 <div align="center">
 <a href="https://www.npmjs.com/package/truecallerjs"><img src="https://img.shields.io/npm/v/truecallerjs.svg" alt="Version"></a>
 <a href="https://github.com/sumithemmadi/truecallerjs/stargazers"><img src="https://img.shields.io/github/stars/sumithemmadi/truecallerjs" alt="Stars"></a>
-<a href="https://github.com/sumithemmadi/truecallerjs/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/truecallerjs.svg" alt="License"></a>
 <a href="https://github.com/sumithemmadi/truecallerjs"><img src="https://img.shields.io/npm/dt/truecallerjs.svg" alt="weekly Download"></a>
+<a href="https://github.com/sumithemmadi/truecallerjs/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/truecallerjs.svg" alt="License"></a>
 <a href="https://github.com/sumithemmadi/truecallerjs#license"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsumithemmadi%2Ftruecallerjs.svg?type=shield" alt="FOSSA Status"></a>
 <a href="https://github.com/sumithemmadi/truecallerjs"><img src="https://img.shields.io/npms-io/maintenance-score/truecallerjs" alt="Maintenance"></a>
 <a href="https://github.com/sumithemmadi/truecallerjs/issues"><img src="https://img.shields.io/github/issues/sumithemmadi/truecallerjs" alt="issues"></a>
