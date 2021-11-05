@@ -1,0 +1,44 @@
+{
+  "name": "truecallerjs",
+  "version": "1.0.10",
+  "description": "truecallerjs : A simple package to search phone number details.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js login"
+  },
+  "bin": {
+    "truecallerjs": "./bin/index.js"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "repository": "git+https://github.com/sumithemmadi/truecallerjs.git",
+  "keywords": [
+    "truecaller",
+    "Search number",
+    "Truecallerjs",
+    "Number Details",
+    "Mobile Number Details"
+  ],
+  "author": "sumithemmadi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sumithemmadi/truecallerjs/issues"
+  },
+  "homepage": "https://github.com/sumithemmadi/truecallerjs#readme",
+  "dependencies": {
+    "awesome-phonenumber": "^2.64.0",
+    "axios": "^0.23.0",
+    "colors": "^1.4.0",
+    "randombytes": "^2.1.0",
+    "readline-sync": "^1.4.10",
+    "remedial": "^1.0.8",
+    "remove-trailing-spaces": "^1.0.8",
+    "xml2js": "^0.4.23",
+    "yargs": "^17.2.1"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "private": false
+}
