@@ -271,7 +271,7 @@ sn.then(function(response) {
 
 ```
 - **PHONE_NUMBER** : Number you want to search.
-- **COUNTRY_CODE** : Country code you want use by default . If mobile number is not in **E164**(International formate) Format then **COUNTRY_CODE** will be considered as a country code of that Mobile Number.
+- **COUNTRY_CODE** : Country code you want to use by default . If mobile number is not in **E164**(International formate) Format then **COUNTRY_CODE** will be considered as a country code of that Mobile Number.
 - **FORMATE** : Formate of the output.
      1. JSON
      2. XML
