@@ -32,7 +32,7 @@ Then  login to your truecaller account .
 ```bash
 ~$ truecallerjs -s [number]
 ```
-```js
+```yaml
 {
     "data": [
         {
