@@ -124,7 +124,7 @@ Sumith Emmadi
 ~$ truecallerjs -s [number] --xml
 ```
 ```xml
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <root>
    <data>
      <item0>
