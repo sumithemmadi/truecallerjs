@@ -290,7 +290,7 @@ npm install -g  truecallerjs
 truecallerjs --installationid
 ```
 ### Example
-Here mobile number in national formate and country code is india.
+Here mobile number is in national formate and country code is india.
 So india is considered as a country code of that mobile number
 ```js
 const truecallerjs = require('truecallerjs');
@@ -307,7 +307,7 @@ sn.then(function(response) {
     console.log(response)
 });
 ```
-Here the mobile number is in international formate. So it is a US number
+Here mobile number is in international formate. So it is a US number
 
 ```js
 const truecallerjs = require('truecallerjs');
