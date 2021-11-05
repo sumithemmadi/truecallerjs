@@ -1,6 +1,6 @@
 {
   "name": "truecallerjs",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "truecallerjs : A simple package to search phone number details.",
   "main": "index.js",
   "scripts": {
