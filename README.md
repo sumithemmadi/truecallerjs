@@ -112,7 +112,7 @@ Other command's
 
 Sumith Emmadi
 ```
-### Output Formates
+### Output Formats
 - 1 . JSON
 - 2 . XML
 - 3 . YAML
@@ -264,7 +264,7 @@ var searchData = {
                 number: "[PHONE_NUMBER]",
                 countryCode: "[COUNTRY_CODE]",
                 installationId: "[INSTALLATION_ID]",
-                output: "[FORMATE]"
+                output: "[FORMAT]"
         }
 
 var sn = truecallerjs.searchNumber(searchData);
@@ -274,8 +274,8 @@ sn.then(function(response) {
 
 ```
 - **PHONE_NUMBER** : Number you want to search.
-- **COUNTRY_CODE** : Country code you want to use by default . If mobile number is not in **E164**(International formate) Format then **COUNTRY_CODE** will be considered as a country code of that Mobile Number.
-- **FORMATE** : Formate of the output.
+- **COUNTRY_CODE** : Country code you want to use by default . If mobile number is not in **E164**(International Format) Format then **COUNTRY_CODE** will be considered as a country code of that Mobile Number.
+- **FORMAT** : Format of the output.
      1. JSON
      2. XML
      3. YAML
@@ -293,7 +293,7 @@ npm install -g  truecallerjs
 truecallerjs --installationid
 ```
 ### Example
-Here mobile number is in national formate and country code is india.
+Here mobile number is in national format and country code is india.
 So india is considered as a country code of that mobile number
 ```js
 const truecallerjs = require('truecallerjs');
@@ -310,7 +310,7 @@ sn.then(function(response) {
     console.log(response)
 });
 ```
-Here mobile number is in international formate. So it is a US number
+Here mobile number is in international format. So it is a US number
 
 ```js
 const truecallerjs = require('truecallerjs');

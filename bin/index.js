@@ -33,8 +33,8 @@ const authkey      = path.join(__dirname, '../.secret', 'authkey.json')
 
 const argv         = yargs.usage("Usage: \n$0  login (Login to truecaller).\n$0 -s [number] (command to search a number).").option("search", {
 	alias: "s",
-	description: "To search caller name and related iformation of a number",
-	type: "charecter"
+	description: "To search caller name and related information of a number",
+	type: "character"
 }).option("raw", {
 	alias: "r",
 	description: "Print's raw output",
@@ -71,11 +71,11 @@ function getAuthKey() {
 	}
 }
 if(argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
-	console.log("Login\n\n Enter mobile number in international formate\n Example : +919912345678.\n".blue);
+	console.log("Login\n\n Enter mobile number in International Format\n Example : +919912345678.\n".blue);
 	var inputNumber = readlineSync.question('Enter Mobile Number : ');
 	let pn = PhoneNumber(inputNumber.toString());
 	if(inputNumber != pn.getNumber("e164")) {
-		console.log("Enter valid phone number in international formate".red);
+		console.log("Enter valid phone number in International Format".red);
 		process.exit();
 	}
 	let sendOtp = login.userLogin(inputNumber, pn.getRegionCode(), pn.getNumber("e164"));
@@ -92,16 +92,16 @@ if(argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 						if(err) {
 							console.log("Error creating authkey.json file . please login again".red);
 						} else {
-							console.log("Login Successfull.".green);
+							console.log("Logged in successfully.".green);
 							console.log('authkey.json file saved to secret folder'.yellow);
 						}
 					});
 				} else if(result.status == 11) {
 					console.log("! Invalid OTP ".red);
 				} else if(result.suspended) {
-					console.log("Oops... Your account got suspended.".red);
+					console.log("Oops... Your account is suspended.".red);
 				} else {
-					console.log("Oops... somthing went wrong.".red);
+					console.log("Oops... Something went wrong.".red);
 				}
 			}).catch(function(error) {
 				console.error("Error".red);
