@@ -120,7 +120,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 
 
     // Login
-    console.log("Login\n\n Enter mobile number in International Format\n Example : +919912345678.\n".blue);
+    console.log("Login\n\n Enter mobile number in International Format\n Example : +919912345678.\n".yellow);
     var inputNumber = readlineSync.question('Enter Mobile Number : ');
     let pn = PhoneNumber(inputNumber.toString());
     if (inputNumber != pn.getNumber("e164")) {
@@ -165,7 +165,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         data
     };
 
-    console.log("Sending OTP to".yellow, inputNumber.yellow);
+    console.log("Sending OTP to".green, inputNumber.green);
     axios(options)
         .then(
             (response) => {
@@ -198,7 +198,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                             (requestResponse) => {
                                 // console.log(requestResponse.data);
                                 if ((requestResponse.data.status == 2 && !requestResponse.data.suspended) || ("installationId" in requestResponse.data)) {
-                                    console.log("Your installationId : ".blue, requestResponse.data.installationId.yellow);
+                                    console.log("Your installationId : ".cyan, requestResponse.data.installationId.green);
                                     fs.writeFileSync(authkey, JSON.stringify(requestResponse.data, null, 4), (err) => {
                                         if (err) {
                                             console.log(err.message.red);
@@ -307,12 +307,12 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                     if ("data" in response) {
                         let data1 = response.data[0];
                         if ("name" in data1) {
-                            console.log("Name :".blue, response.data[0].name.yellow);
+                            console.log("Name :".cyan, response.data[0].name.green);
                         } else {
-                            console.log("Name : ".blue, "Unknown Name".yellow);
+                            console.log("Name : ".cyan, "Unknown Name".green);
                         }
                     } else {
-                        console.log("Name : ".blue, "Unknown Name".yellow);
+                        console.log("Name : ".cyan, "Unknown Name".green);
                     }
                 } else if (argv.n && argv.r) {
                     if ("data" in response) {
@@ -344,7 +344,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         if (argv.r) {
             console.log(installationId);
         } else {
-            console.log("Your InstallationId : ".blue, installationId.yellow);
+            console.log("Your InstallationId : ".cyan, installationId.green);
         }
     }
 } else {
