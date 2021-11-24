@@ -165,7 +165,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         data
     };
 
-    console.log("Sending OTP to".green, inputNumber.green);
+    console.log("Sending OTP to".yellow, inputNumber.yellow);
     axios(options)
         .then(
             (response) => {
@@ -198,7 +198,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                             (requestResponse) => {
                                 // console.log(requestResponse.data);
                                 if ((requestResponse.data.status == 2 && !requestResponse.data.suspended) || ("installationId" in requestResponse.data)) {
-                                    console.log("Your installationId : ".cyan, requestResponse.data.installationId.green);
+                                    console.log("Your installationId : ".yellow, requestResponse.data.installationId.green);
                                     fs.writeFileSync(authkey, JSON.stringify(requestResponse.data, null, 4), (err) => {
                                         if (err) {
                                             console.log(err.message.red);
@@ -307,12 +307,12 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                     if ("data" in response) {
                         let data1 = response.data[0];
                         if ("name" in data1) {
-                            console.log("Name :".cyan, response.data[0].name.green);
+                            console.log("Name :".yellow, response.data[0].name.green);
                         } else {
-                            console.log("Name : ".cyan, "Unknown Name".green);
+                            console.log("Name : ".yellow, "Unknown Name".green);
                         }
                     } else {
-                        console.log("Name : ".cyan, "Unknown Name".green);
+                        console.log("Name : ".yellow, "Unknown Name".green);
                     }
                 } else if (argv.n && argv.r) {
                     if ("data" in response) {
@@ -339,12 +339,12 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
     if (jsonAuthKey.responseStatus == "error") {
         console.log(jsonAuthKey)
     } else {
-        let countryCode = jsonAuthKey.phones[0].countryCode;
+        // let countryCode = jsonAuthKey.phones[0].countryCode;
         let installationId = jsonAuthKey.installationId;
         if (argv.r) {
             console.log(installationId);
         } else {
-            console.log("Your InstallationId : ".cyan, installationId.green);
+            console.log("Your InstallationId : ".yellow, installationId.green);
         }
     }
 } else {
