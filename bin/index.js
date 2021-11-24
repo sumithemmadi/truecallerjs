@@ -98,7 +98,7 @@ function generateRandomString(length) {
 // User Login
 if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 
-    var dir = process.env.HOME || process.env.HOMEPATH + '/.truecallerjs';
+    var dir = path.join(process.env.HOME || process.env.HOMEPATH,'/.truecallerjs');
 
     // Check whether '.truecallerjs' folder exist or not. 
     if (!fs.existsSync(dir)) {
@@ -337,7 +337,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 } else if (argv.i && !argv.s) {
     let jsonAuthKey = getAuthKey()
     if (jsonAuthKey.responseStatus == "error") {
-        console.log(jsonAuthKey)
+        console.log(jsonAuthKey.errorResp)
     } else {
         // let countryCode = jsonAuthKey.phones[0].countryCode;
         let installationId = jsonAuthKey.installationId;
