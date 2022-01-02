@@ -627,6 +627,7 @@ sn.then(function(response) {
 ```
 
 **Table**
+
 <table>
    <tr>
       <th>Properties</th>
