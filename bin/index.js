@@ -26,7 +26,6 @@ const yargs = require("yargs");
 const PhoneNumber = require("awesome-phonenumber");
 var readlineSync = require('readline-sync');
 const axios = require("axios").default;
-const colors = require("colors");
 const truecallerjs = require("../lib/main");
 const rawdata = require('../src/phonesList.json');
 const path = require('path')
@@ -120,11 +119,11 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 
 
     // Login
-    console.log("Login\n\n Enter mobile number in International Format\n Example : +919912345678.\n".yellow);
-    var inputNumber = readlineSync.question('Enter Mobile Number : ');
+    console.log('\x1b[33m%s\x1b[0m', "Login\n\n Enter mobile number in International Format\n Example : +919912345678.\n");
+    var inputNumber = readlineSync.question('\x1b[33m%s\x1b[0m','Enter Mobile Number : ');
     let pn = PhoneNumber(inputNumber.toString());
     if (inputNumber != pn.getNumber("e164")) {
-        console.log("Enter valid phone number in International Format".red);
+        console.log('\x1b[31m%s\x1b[0m',"Enter valid phone number in International Format");
         process.exit();
     }
     const data = {
@@ -165,13 +164,13 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         data
     };
 
-    console.log("Sending OTP to".yellow, inputNumber.yellow);
+    console.log(`\x1b[33mSending OTP to ${inputNumber}\x1b[0m`);
     axios(options)
         .then(
             (response) => {
                 // console.log(response.data);
                 if (response.data.status == 1 || response.data.status == 9 || response.data.message == "Sent") {
-                    console.log("Otp sent successfully ".green);
+                    console.log('\x1b[32m%s\x1b[0m',"Otp sent successfully ");
 
                     // verifyOtp and create authkey.json file.
                     const token = readlineSync.question('Enter Received OTP: ');
@@ -198,18 +197,18 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                             (requestResponse) => {
                                 // console.log(requestResponse.data);
                                 if ((requestResponse.data.status == 2 && !requestResponse.data.suspended) || ("installationId" in requestResponse.data)) {
-                                    console.log("Your installationId : ".yellow, requestResponse.data.installationId.green);
+                                    console.log(`\x1b[33mYour installationId\x1b[0m : \x1b[32m${requestResponse.data.installationId}\x1b[0m`);
                                     fs.writeFileSync(authkey, JSON.stringify(requestResponse.data, null, 4), (err) => {
                                         if (err) {
-                                            console.log(err.message.red);
+                                            console.log('\x1b[31m%s\x1b[0m',err.message);
                                             process.exit();
                                         }
                                     });
-                                    console.log("Logged in successfully.".green);
+                                    console.log('\x1b[32m%s\x1b[0m',"Logged in successfully.");
                                 } else if (requestResponse.data.status == 11) {
-                                    console.log("! Invalid OTP ".red);
+                                    console.log('\x1b[31m%s\x1b[0m',"! Invalid OTP ");
                                 } else if (requestResponse.data.suspended) {
-                                    console.log("Oops... Your account is suspended.".red);
+                                    console.log('\x1b[31m%s\x1b[0m',"Oops... Your account is suspended.");
                                 } else if ("message" in requestResponse.data) {
                                     console.log(requestResponse.message);
                                 } else {
@@ -217,12 +216,12 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                                 }
                             },
                             (error) => {
-                                console.log(error.message.red);
+                                console.log('\x1b[31m%s\x1b[0m', error.message);
                             })
                 }
             },
             (err) => {
-                console.log(err.message.red);
+                console.log('\x1b[31m%s\x1b[0m',err.message);
             }
         );
 
@@ -300,19 +299,19 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
             const searchResult = truecallerjs.searchNumber(searchData)
             searchResult.then(function(response) {
                 if (response == '""') {
-                    console.log("Error in input".red);
+                    console.log('\x1b[31m%s\x1b[0m',"Error in input");
                 } else if (argv.r && !argv.n) {
                     console.log(JSON.stringify(response));
                 } else if (argv.n && !argv.r) {
                     if ("data" in response) {
                         let data1 = response.data[0];
                         if ("name" in data1) {
-                            console.log("Name :".yellow, response.data[0].name.green);
+                            console.log(`\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].name}\x1b[0m`);
                         } else {
-                            console.log("Name : ".yellow, "Unknown Name".green);
+                            console.log("\x1b[33mName\x1b[0m : \x1b[32mUnknown Name\x1b[0m");
                         }
                     } else {
-                        console.log("Name : ".yellow, "Unknown Name".green);
+                        console.log("\x1b[33mName\x1b[0m : \x1b[32mUnknown Name\x1b[0m");
                     }
                 } else if (argv.n && argv.r) {
                     if ("data" in response) {
@@ -330,7 +329,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                     console.log(data);
                 }
             }).catch(function(error) {
-                console.error("Error".red);
+                console.error('\x1b[31m%s\x1b[0m',"Error");
             });
         }
     }
@@ -344,7 +343,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
         if (argv.r) {
             console.log(installationId);
         } else {
-            console.log("Your InstallationId : ".yellow, installationId.green);
+            console.log(`\x1b[33mYour InstallationId\x1b[0m : \x1b[32m${installationId}\x1b[0m`);
         }
     }
 } else {
