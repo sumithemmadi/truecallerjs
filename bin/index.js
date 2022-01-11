@@ -120,7 +120,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 
     // Login
     console.log('\x1b[33m%s\x1b[0m', "Login\n\n Enter mobile number in International Format\n Example : +919912345678.\n");
-    var inputNumber = readlineSync.question('\x1b[33m%s\x1b[0m','Enter Mobile Number : ');
+    var inputNumber = readlineSync.question('Enter Mobile Number : ');
     let pn = PhoneNumber(inputNumber.toString());
     if (inputNumber != pn.getNumber("e164")) {
         console.log('\x1b[31m%s\x1b[0m',"Enter valid phone number in International Format");
