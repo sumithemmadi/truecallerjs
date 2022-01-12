@@ -75,7 +75,7 @@ function getAuthKey() {
     } catch (err) {
         let error = {
             responseStatus: "error",
-            errorResp: `Unable to read  \'${authkey}\'  file. Please login to your account.`,
+            errorResp: 'Please login to your account.',
             data: "null"
         }
         return error;
@@ -230,7 +230,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
     // get file contains of authkey.json
     let jsonAuthKey = getAuthKey()
     if (jsonAuthKey.responseStatus == "error") {
-        console.log(jsonAuthKey)
+        console.log('\x1b[33m%s\x1b[0m', jsonAuthKey.errorResp);
     } else {
         let countryCode = jsonAuthKey.phones[0].countryCode;
         let installationId = jsonAuthKey.installationId;
@@ -336,7 +336,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 } else if (argv.i && !argv.s) {
     let jsonAuthKey = getAuthKey()
     if (jsonAuthKey.responseStatus == "error") {
-        console.log(jsonAuthKey.errorResp)
+        console.log('\x1b[33m%s\x1b[0m', jsonAuthKey.errorResp);
     } else {
         // let countryCode = jsonAuthKey.phones[0].countryCode;
         let installationId = jsonAuthKey.installationId;

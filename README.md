@@ -1,25 +1,51 @@
-<h1 align="center" id="truecallerjs"><a href="https://github.com/sumithemmadi/truecallerjs">Truecallerjs</a></h1>
+<h1 align="center" id="truecallerjs">
+    <a href="https://github.com/sumithemmadi/truecallerjs">Truecallerjs</a>
+</h1>
 
 <div align="center">
-<a href="https://www.npmjs.com/package/truecallerjs"><img src="https://img.shields.io/npm/v/truecallerjs.svg" alt="Version"></a>
-<a href="https://github.com/sumithemmadi/truecallerjs/stargazers"><img src="https://img.shields.io/github/stars/sumithemmadi/truecallerjs" alt="Stars"></a>
-<a href="https://github.com/sumithemmadi/truecallerjs"><img src="https://img.shields.io/npm/dt/truecallerjs.svg" alt="weekly Download"></a>
-<a href="https://github.com/sumithemmadi/truecallerjs/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/truecallerjs.svg" alt="License"></a>
-<a href="https://github.com/sumithemmadi/truecallerjs#license"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsumithemmadi%2Ftruecallerjs.svg?type=shield" alt="FOSSA Status"></a>
-<a href="https://github.com/sumithemmadi/truecallerjs"><img src="https://img.shields.io/npms-io/maintenance-score/truecallerjs" alt="Maintenance"></a>
-<a href="https://github.com/sumithemmadi/truecallerjs/issues"><img src="https://img.shields.io/github/issues/sumithemmadi/truecallerjs" alt="issues"></a>
-<br>
-<p>A simple  package to search phone number details.</p>
+    <a href="https://www.npmjs.com/package/truecallerjs"
+        ><img src="https://img.shields.io/npm/v/truecallerjs.svg" alt="Version"
+    /></a>
+    <a href="https://github.com/sumithemmadi/truecallerjs/stargazers"
+        ><img
+            src="https://img.shields.io/github/stars/sumithemmadi/truecallerjs"
+            alt="Stars"
+    /></a>
+    <a href="https://github.com/sumithemmadi/truecallerjs"
+        ><img
+            src="https://img.shields.io/npm/dt/truecallerjs.svg"
+            alt="weekly Download"
+    /></a>
+    <a href="https://github.com/sumithemmadi/truecallerjs/blob/main/LICENSE"
+        ><img src="https://img.shields.io/npm/l/truecallerjs.svg" alt="License"
+    /></a>
+    <a href="https://github.com/sumithemmadi/truecallerjs#license"
+        ><img
+            src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsumithemmadi%2Ftruecallerjs.svg?type=shield"
+            alt="FOSSA Status"
+    /></a>
+    <a href="https://github.com/sumithemmadi/truecallerjs"
+        ><img
+            src="https://img.shields.io/npms-io/maintenance-score/truecallerjs"
+            alt="Maintenance"
+    /></a>
+    <a href="https://github.com/sumithemmadi/truecallerjs/issues"
+        ><img
+            src="https://img.shields.io/github/issues/sumithemmadi/truecallerjs"
+            alt="issues"
+    /></a>
+    <br>
+    <p>A simple package to search phone number details.</p>
 </div>
 
-## Requirements
+# Requirements
 
-   * Valid Mobile Number(Phone number verification for truecaller)
-   * [Truecaller InstallationId](https://github.com/sumithemmadi/truecallerjs#installation)
+* Valid Mobile Number(Phone number verification for truecaller)
+* [Truecaller InstallationId](https://github.com/sumithemmadi/truecallerjs#installation)
 
 ## [Command Line Usage](https://github.com/sumithemmadi/truecallerjs)
 
-### Installation 
+### Installation
 
 Install this npm package globally.
 
@@ -35,7 +61,7 @@ Then  login to your truecaller account .
 ~$ truecallerjs login
 ```
 
-> If you get any error try running '**sudo truecallerjs login**'. If you are using Windows try the command with **Adminitrative Privilege**. 
+> If you get any error try running '**sudo truecallerjs login**'. If you are using Windows try the command with **Adminitrative Privilege**.
 
 ### InstallationId
 
@@ -309,7 +335,7 @@ sourceStats         : []
 
 #### To get HTML output
 
-```
+```bash
 ~$ truecallerjs -s [number] --html
 ```
 
@@ -464,8 +490,6 @@ sourceStats         : []
 
 ## [Basic Usage](https://github.com/sumithemmadi/truecallerjs)
 
-### Installation
-
 ```bash
 npm install truecallerjs
 ```
@@ -507,16 +531,16 @@ sn.then(function(response) {
 
 * **PHONE_NUMBER** : Number you want to search.
 * **COUNTRY_CODE** : Country code you want to use by default . If mobile number is not in **E164**(International Format) Format then **COUNTRY_CODE** will be considered as a country code of that Mobile Number.
-* **FORMAT** : Format of the output.<br>
-     1 . JSON <br>
-     2 . XML<br>
-     3 . YAML<br>
-     4 . TEXT<br>
+* **FORMAT** : Format of the output.
+     1 . JSON
+     2 . XML
+     3 . YAML
+     4 . TEXT
      5 . HTML
 
 * **INSTALLATION_ID** : To know your InstallationId , install the package globally.
 
-*  **InstallationId**
+* **InstallationId**
 
 ```bash
 npm install -g  truecallerjs
@@ -625,155 +649,6 @@ sn.then(function(response) {
     console.log(response)
 });
 ```
-
-**Table**
-
-<table>
-   <tr>
-      <th>Properties</th>
-      <th>Values</th>
-   </tr>
-   <tr>
-      <td>data</td>
-      <td>
-   <tr>
-      <td>id</td>
-      <td>jsiebejebbeebhee/dnss00w==</td>
-   </tr>
-   <tr>
-      <td>name</td>
-      <td>Sumith Emmadi</td>
-   </tr>
-   <tr>
-      <td>imId</td>
-      <td>1g7rm006b356o</td>
-   </tr>
-   <tr>
-      <td>gender</td>
-      <td>UNKNOWN</td>
-   </tr>
-   <tr>
-      <td>image</td>
-      <td>https://storage.googleapis.com/tc-images-noneu/myview/1/jdvdidbdhvdjdvddbkdbeiebeieb</td>
-   </tr>
-   <tr>
-      <td>score</td>
-      <td>0.9</td>
-   </tr>
-   <tr>
-      <td>access</td>
-      <td>PUBLIC</td>
-   </tr>
-   <tr>
-      <td>enhanced</td>
-      <td>true</td>
-   </tr>
-   <tr>
-      <td>phones</td>
-      <td>
-   <tr>
-      <td>e164Format</td>
-      <td>+000000000000</td>
-   </tr>
-   <tr>
-      <td>numberType</td>
-      <td>MOBILE</td>
-   </tr>
-   <tr>
-      <td>nationalFormat</td>
-      <td>+000000000000</td>
-   </tr>
-   <tr>
-      <td>dialingCode</td>
-      <td>91</td>
-   </tr>
-   <tr>
-      <td>countryCode</td>
-      <td>IN</td>
-   </tr>
-   <tr>
-      <td>carrier</td>
-      <td>Airtel</td>
-   </tr>
-   <tr>
-      <td>type</td>
-      <td>openPhone</td>
-   </tr>
-   </td></tr>
-   <tr>
-      <td>addresses</td>
-      <td>
-   <tr>
-      <td>city</td>
-      <td>Andhra Pradesh</td>
-   </tr>
-   <tr>
-      <td>countryCode</td>
-      <td>IN</td>
-   </tr>
-   <tr>
-      <td>timeZone</td>
-      <td>+05:30</td>
-   </tr>
-   <tr>
-      <td>type</td>
-      <td>address</td>
-   </tr>
-   </td></tr>
-   <tr>
-      <td>internetAddresses</td>
-      <td>
-   <tr>
-      <td>id</td>
-      <td>email@gmail.com</td>
-   </tr>
-   <tr>
-      <td>service</td>
-      <td>email</td>
-   </tr>
-   <tr>
-      <td>caption</td>
-      <td>Sumith Emmadi</td>
-   </tr>
-   <tr>
-      <td>type</td>
-      <td>internetAddress</td>
-   </tr>
-   </td></tr>
-   <tr>
-      <td>badges</td>
-      <td>verified, user</td>
-   </tr>
-   <tr>
-      <td>cacheTtl</td>
-      <td></td>
-   </tr>
-   <tr>
-      <td>sources</td>
-      <td>[]</td>
-   </tr>
-   <tr>
-      <td>searchWarnings</td>
-      <td>[]</td>
-   </tr>
-   <tr>
-      <td>surveys</td>
-      <td>[]</td>
-   </tr>
-   </td></tr>
-   <tr>
-      <td>provider</td>
-      <td>ss-nu</td>
-   </tr>
-   <tr>
-      <td>stats</td>
-      <td>
-   <tr>
-      <td>sourceStats</td>
-      <td>[]</td>
-   </tr>
-   </td></tr>
-</table>
 
 ## License
 
