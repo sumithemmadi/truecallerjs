@@ -171,7 +171,6 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                 // console.log(response.data);
                 if (response.data.status == 1 || response.data.status == 9 || response.data.message == "Sent") {
                     console.log('\x1b[32m%s\x1b[0m',"Otp sent successfully ");
-
                     // verifyOtp and create authkey.json file.
                     const token = readlineSync.question('Enter Received OTP: ');
                     const postData = {
@@ -210,14 +209,18 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                                 } else if (requestResponse.data.suspended) {
                                     console.log('\x1b[31m%s\x1b[0m',"Oops... Your account is suspended.");
                                 } else if ("message" in requestResponse.data) {
-                                    console.log(requestResponse.message);
+                                    console.log(requestResponse.data.message);
                                 } else {
-                                    console.log(requestResponse.data);
+                                    console.log(JSON.stringify(requestResponse.data));
                                 }
                             },
                             (error) => {
                                 console.log('\x1b[31m%s\x1b[0m', error.message);
                             })
+                } else if  (response.data.status == 6){
+                    console.log('\x1b[31m%s\x1b[0m', "You have exceeded the limit of verification attempts.\nPlease try again after some time.");
+                } else {
+                    console.log('\x1b[31m%s\x1b[0m', response.data.message);
                 }
             },
             (err) => {
