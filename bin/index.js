@@ -194,7 +194,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                     axios(options2)
                         .then(
                             (requestResponse) => {
-                                // console.log(requestResponse.data);
+                                //  console.log(requestResponse.data);
                                 if ((requestResponse.data.status == 2 && !requestResponse.data.suspended) || ("installationId" in requestResponse.data)) {
                                     console.log(`\x1b[33mYour installationId\x1b[0m : \x1b[32m${requestResponse.data.installationId}\x1b[0m`);
                                     fs.writeFileSync(authkey, JSON.stringify(requestResponse.data, null, 4), (err) => {
