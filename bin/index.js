@@ -97,7 +97,7 @@ function generateRandomString(length) {
 // User Login
 if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
 
-    var dir = path.join(process.env.HOME || process.env.HOMEPATH,'/.truecallerjs');
+    var dir = path.join(process.env.HOME || process.env.HOMEPATH, '/.truecallerjs');
 
     // Check whether '.truecallerjs' folder exist or not. 
     if (!fs.existsSync(dir)) {
@@ -123,7 +123,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
     var inputNumber = readlineSync.question('Enter Mobile Number : ');
     let pn = PhoneNumber(inputNumber.toString());
     if (inputNumber != pn.getNumber("e164")) {
-        console.log('\x1b[31m%s\x1b[0m',"Enter valid phone number in International Format");
+        console.log('\x1b[31m%s\x1b[0m', "Enter valid phone number in International Format");
         process.exit();
     }
     const data = {
@@ -170,7 +170,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
             (response) => {
                 // console.log(response.data);
                 if (response.data.status == 1 || response.data.status == 9 || response.data.message == "Sent") {
-                    console.log('\x1b[32m%s\x1b[0m',"Otp sent successfully ");
+                    console.log('\x1b[32m%s\x1b[0m', "Otp sent successfully ");
                     // verifyOtp and create authkey.json file.
                     const token = readlineSync.question('Enter Received OTP: ');
                     const postData = {
@@ -199,15 +199,15 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                                     console.log(`\x1b[33mYour installationId\x1b[0m : \x1b[32m${requestResponse.data.installationId}\x1b[0m`);
                                     fs.writeFileSync(authkey, JSON.stringify(requestResponse.data, null, 4), (err) => {
                                         if (err) {
-                                            console.log('\x1b[31m%s\x1b[0m',err.message);
+                                            console.log('\x1b[31m%s\x1b[0m', err.message);
                                             process.exit();
                                         }
                                     });
-                                    console.log('\x1b[32m%s\x1b[0m',"Logged in successfully.");
+                                    console.log('\x1b[32m%s\x1b[0m', "Logged in successfully.");
                                 } else if (requestResponse.data.status == 11) {
-                                    console.log('\x1b[31m%s\x1b[0m',"! Invalid OTP ");
+                                    console.log('\x1b[31m%s\x1b[0m', "! Invalid OTP ");
                                 } else if (requestResponse.data.suspended) {
-                                    console.log('\x1b[31m%s\x1b[0m',"Oops... Your account is suspended.");
+                                    console.log('\x1b[31m%s\x1b[0m', "Oops... Your account is suspended.");
                                 } else if ("message" in requestResponse.data) {
                                     console.log(requestResponse.data.message);
                                 } else {
@@ -217,16 +217,67 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                             (error) => {
                                 console.log('\x1b[31m%s\x1b[0m', error.message);
                             })
-                } else if  (response.data.status == 6){
+                } else if (response.data.status == 6) {
                     console.log('\x1b[31m%s\x1b[0m', "You have exceeded the limit of verification attempts.\nPlease try again after some time.");
                 } else {
                     console.log('\x1b[31m%s\x1b[0m', response.data.message);
                 }
             },
             (err) => {
-                console.log('\x1b[31m%s\x1b[0m',err.message);
+                console.log('\x1b[31m%s\x1b[0m', err.message);
             }
         );
+} else if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 2) {
+    
+    var dir = path.join(process.env.HOME || process.env.HOMEPATH, '/.truecallerjs');
+
+    // Check whether '.truecallerjs' folder exist or not. 
+    if (!fs.existsSync(dir)) {
+        try {
+            fs.mkdirSync(dir, { recursive: true });
+        } catch (error) {
+            console.log(error.message);
+            process.exit();
+        }
+    }
+
+    // create login.txt file.
+    fs.writeFileSync(dir + "/login.txt", Date(), (err) => {
+        if (err) {
+            console.log(err.message);
+            process.exit();
+        }
+    });
+
+    try {
+        const data = fs.readFileSync(argv._[1], 'utf8');
+
+        const fileData = JSON.parse(data);
+        // console.log(fileData);
+
+        var installationIdJSON = {
+            "status": 2,
+            "message": "Verified",
+            "installationId": fileData.account.installations[0].installation.id,
+            "ttl": 259200,
+            "userId": fileData.account.userId,
+            "suspended": false,
+            "phones": [
+                {
+                    "phoneNumber": fileData.profile.personalData.phoneNumbers[0].number,
+                    "countryCode": fileData.profile.personalData.phoneNumbers[0].countryCode,
+                    "priority": 1
+                }
+            ]
+        }
+
+        console.log(`\x1b[33mYour installationId\x1b[0m : \x1b[32m${fileData.account.installations[0].installation.id}\x1b[0m`);
+        fs.writeFileSync(authkey, JSON.stringify(installationIdJSON, null, 4));
+        console.log('\x1b[32m%s\x1b[0m', "Logged in successfully.");
+
+    } catch (err) {
+        console.error(err);
+    }
 
 } else if (argv.s && !argv._.includes("login") && !argv.i) {
 
@@ -245,7 +296,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                 output: "JSON"
             }
             const searchResult = truecallerjs.searchNumber(searchData)
-            searchResult.then(function(response) {
+            searchResult.then(function (response) {
                 console.log(response)
             })
         } else if (argv.xml && !argv.html && !argv.json && !argv.text && !argv.yaml) {
@@ -256,7 +307,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                 output: "XML"
             }
             const searchResult = truecallerjs.searchNumber(searchData)
-            searchResult.then(function(response) {
+            searchResult.then(function (response) {
                 console.log(response)
             })
         } else if (argv.yaml && !argv.html && !argv.xml && !argv.text && !argv.json) {
@@ -267,7 +318,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                 output: "YAML"
             }
             const searchResult = truecallerjs.searchNumber(searchData)
-            searchResult.then(function(response) {
+            searchResult.then(function (response) {
                 console.log(response)
             })
         } else if (argv.text && !argv.html && !argv.yaml && !argv.xml && !argv.json) {
@@ -278,7 +329,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                 output: "TEXT"
             }
             const searchResult = truecallerjs.searchNumber(searchData)
-            searchResult.then(function(response) {
+            searchResult.then(function (response) {
                 console.log(response)
             })
         } else if (argv.html && !argv.yaml && !argv.xml && !argv.text && !argv.json) {
@@ -289,20 +340,20 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                 output: "HTML"
             }
             const searchResult = truecallerjs.searchNumber(searchData)
-            searchResult.then(function(response) {
+            searchResult.then(function (response) {
                 console.log(response)
             })
         } else {
             let searchData = {
-                    number: argv.s,
-                    countryCode,
-                    installationId
-                }
-                // console.log(searchData)
+                number: argv.s,
+                countryCode,
+                installationId
+            }
+            // console.log(searchData)
             const searchResult = truecallerjs.searchNumber(searchData)
-            searchResult.then(function(response) {
+            searchResult.then(function (response) {
                 if (response == '""') {
-                    console.log('\x1b[31m%s\x1b[0m',"Error in input");
+                    console.log('\x1b[31m%s\x1b[0m', "Error in input");
                 } else if (argv.r && !argv.n) {
                     console.log(JSON.stringify(response));
                 } else if (argv.n && !argv.r) {
@@ -331,8 +382,8 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                     const data = JSON.stringify(response, null, 4);
                     console.log(data);
                 }
-            }).catch(function(error) {
-                console.error('\x1b[31m%s\x1b[0m',"Error");
+            }).catch(function (error) {
+                console.error('\x1b[31m%s\x1b[0m', "Error");
             });
         }
     }

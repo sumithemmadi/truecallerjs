@@ -63,6 +63,19 @@ Then  login to your truecaller account .
 
 > If you get any error try running '**sudo truecallerjs login**'. If you are using Windows try the command with **Adminitrative Privilege**.
 
+> If you still facing problems in login then try below steps.
+
+   1. On Truecaller Android, tap on the 3 line menu on top left
+   2. Tap on `Privacy Center` and then click on `Download my data`.
+   3. Now a json file is downloaded. 
+   4. Save the json file on your PC at any location e.g /home/HP/1234567890-99123456789.json
+   5. On you terminal or command prompt enter below command.
+   ```
+   ~$ truecallerjs login /home/HP/1234567890-99123456789.json
+   ```
+   6. Now you are successfully logged in.
+
+
 ### InstallationId
 
 Enter the below command to see your **InstallationId**.
