@@ -1,8 +1,6 @@
-<h1 align="center" id="truecallerjs">
+<h1 id="truecallerjs">
     <a href="https://github.com/sumithemmadi/truecallerjs">Truecallerjs</a>
 </h1>
-
-<div align="center">
     <a href="https://www.npmjs.com/package/truecallerjs"
         ><img src="https://img.shields.io/npm/v/truecallerjs.svg" alt="Version"
     /></a>
@@ -36,7 +34,7 @@
     /></a>
     <br>
     <p>A simple package to search phone number details.</p>
-</div>
+
 
 # Requirements
 
