@@ -228,7 +228,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
             }
         );
 } else if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 2) {
-    
+
     var dir = path.join(process.env.HOME || process.env.HOMEPATH, '/.truecallerjs');
 
     // Check whether '.truecallerjs' folder exist or not. 
@@ -379,7 +379,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                         console.log("Unknown Name");
                     }
                 } else {
-                    const data = JSON.stringify(response, null, 4);
+                    const data = JSON.stringify(response, null,2);
                     console.log(data);
                 }
             }).catch(function (error) {

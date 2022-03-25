@@ -14,6 +14,7 @@
         "awesome-phonenumber": "^2.64.0",
         "axios": "^0.24.0",
         "readline-sync": "^1.4.10",
+        "truecallerjs": "^1.0.11",
         "xml2js": "^0.4.23",
         "yargs": "^17.2.1"
     },
