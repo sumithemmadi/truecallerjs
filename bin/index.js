@@ -360,7 +360,12 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                     if ("data" in response) {
                         let data1 = response.data[0];
                         if ("name" in data1) {
-                            console.log(`\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].name}\x1b[0m`);
+                              if ("altName" in data1) {
+                                  console.log(`\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].name}\x1b[0m`);
+                                  console.log(`\x1b[33mAlternate Name\x1b[0m : \x1b[32m${response.data[0].altName}\x1b[0m`);
+                              } else {
+                                  console.log(`\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].name}\x1b[0m`);
+                              }
                         } else {
                             console.log("\x1b[33mName\x1b[0m : \x1b[32mUnknown Name\x1b[0m");
                         }

@@ -166,6 +166,7 @@ To print only name.
 ~$ truecallerjs -s [number] --name
 
 Name : Sumith Emmadi
+Aternate name : sumithemmadi  ## print's alternate name if exist
 ```
 
 Other command's
