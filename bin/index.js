@@ -45,6 +45,10 @@ const argv = yargs.usage("Usage: \n$0  login (Login to truecaller).\n$0 -s [numb
     alias: "n",
     description: "Print's user name of phone number ",
     type: "boolean"
+}).option("email", {
+    alias: "e",
+    description: "Print's email",
+    type: "boolean"
 }).option("installationid", {
     alias: "i",
     description: "shows your InstallationId",
@@ -93,6 +97,23 @@ function generateRandomString(length) {
     return result;
 }
 
+function getEmailId(response) {
+    // console.log(response)
+    try {
+        return `\x1b[33mEmail\x1b[0m : \x1b[32m${response.data[0].internetAddresses[0].id}\x1b[0m`;
+    } catch (error) {
+        return "\x1b[33mEmail\x1b[0m : \x1b[32mEmail not found\x1b[0m";
+    }
+}
+
+function getRawEmailId(response) {
+    // console.log(response)
+    try {
+        return response.data[0].internetAddresses[0].id
+    } catch (error) {
+        return "Email not found";
+    }
+}
 
 // User Login
 if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
@@ -259,7 +280,7 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
             "status": 2,
             "message": "Verified",
             "installationId": fileData.account.installations[0].installation.id,
-            "ttl": 259200,
+            "ttl": 123456,
             "userId": fileData.account.userId,
             "suspended": false,
             "phones": [
@@ -354,25 +375,25 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
             searchResult.then(function (response) {
                 if (response == '""') {
                     console.log('\x1b[31m%s\x1b[0m', "Error in input");
-                } else if (argv.r && !argv.n) {
+                } else if (argv.r && !argv.n && !argv.e) {
                     console.log(JSON.stringify(response));
-                } else if (argv.n && !argv.r) {
+                } else if (argv.n && !argv.r && !argv.e) {
                     if ("data" in response) {
                         let data1 = response.data[0];
                         if ("name" in data1) {
-                              if ("altName" in data1) {
-                                  console.log(`\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].name}\x1b[0m`);
-                                  console.log(`\x1b[33mAlternate Name\x1b[0m : \x1b[32m${response.data[0].altName}\x1b[0m`);
-                              } else {
-                                  console.log(`\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].name}\x1b[0m`);
-                              }
+                            if ("altName" in data1) {
+                                console.log(`\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].name}\x1b[0m`);
+                                console.log(`\x1b[33mAlternate Name\x1b[0m : \x1b[32m${response.data[0].altName}\x1b[0m`);
+                            } else {
+                                console.log(`\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].name}\x1b[0m`);
+                            }
                         } else {
                             console.log("\x1b[33mName\x1b[0m : \x1b[32mUnknown Name\x1b[0m");
                         }
                     } else {
                         console.log("\x1b[33mName\x1b[0m : \x1b[32mUnknown Name\x1b[0m");
                     }
-                } else if (argv.n && argv.r) {
+                } else if (argv.n && argv.r && !argv.e) {
                     if ("data" in response) {
                         let data1 = response.data[0];
                         if ("name" in data1) {
@@ -383,13 +404,20 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                     } else {
                         console.log("Unknown Name");
                     }
+                } else if (!argv.n && !argv.r && argv.e) {
+                    let emailID = getEmailId(response);
+                    console.log(emailID);
+                } else if (!argv.n && argv.r && argv.e) {
+                    let emailID = getRawEmailId(response).replace();
+                    console.log(emailID);
                 } else {
-                    const data = JSON.stringify(response, null,2);
+                    const data = JSON.stringify(response, null, 2);
                     console.log(data);
                 }
-            }).catch(function (error) {
-                console.error('\x1b[31m%s\x1b[0m', "Error");
-            });
+            })
+                .catch(function (error) {
+                    console.error('\x1b[31m%s\x1b[0m', "Error");
+                });
         }
     }
 } else if (argv.i && !argv.s) {
