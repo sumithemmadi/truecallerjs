@@ -47,7 +47,7 @@ const argv = yargs.usage("Usage: \n$0  login (Login to truecaller).\n$0 -s [numb
     type: "boolean"
 }).option("email", {
     alias: "e",
-    description: "Print's email",
+    description: "Print's email assigned to the phonenumber",
     type: "boolean"
 }).option("installationid", {
     alias: "i",
