@@ -1,9 +1,3 @@
 node_modules/
 
-.secret/
-
-.secret/authkey.json
-
-test.js
-
 .truecallerjs/authkey.json

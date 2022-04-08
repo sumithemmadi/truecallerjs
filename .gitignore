@@ -1,5 +1,3 @@
 node_modules/
 
-./test.js
-
 .truecallerjs/authkey.json

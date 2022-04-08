@@ -1,5 +1,3 @@
 src/
-tmp/
 bin/
 test/
-.secret/
