@@ -63,7 +63,7 @@ Then  login to your truecaller account .
 
 > If you still facing problems in login then try below steps.
 
-   1. On Truecaller Android, tap on the 3 line menu on top left
+   1. On Truecaller Android, tap on the 3 line menu on top left then click on `setting's`.
    2. Tap on `Privacy Center` and then click on `Download my data`.
    3. Now a json file is downloaded. 
    4. Save the json file on your PC at any location e.g /home/HP/1234567890-99123456789.json
