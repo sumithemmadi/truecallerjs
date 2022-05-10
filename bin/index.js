@@ -41,6 +41,10 @@ const argv = yargs.usage("Usage: \n$0  login (Login to truecaller).\n$0 -s [numb
     alias: "r",
     description: "Print's raw output",
     type: "boolean"
+}).option("bulksearch", {
+    alias: "bs",
+    description: "Make a bulk number search",
+    type: "character"
 }).option("name", {
     alias: "n",
     description: "Print's user name of phone number ",
@@ -48,10 +52,6 @@ const argv = yargs.usage("Usage: \n$0  login (Login to truecaller).\n$0 -s [numb
 }).option("email", {
     alias: "e",
     description: "Print's email assigned to the phonenumber",
-    type: "boolean"
-}).option("installationid", {
-    alias: "i",
-    description: "shows your InstallationId",
     type: "boolean"
 }).option("json", {
     description: "print's  output in json",
@@ -67,6 +67,10 @@ const argv = yargs.usage("Usage: \n$0  login (Login to truecaller).\n$0 -s [numb
     type: "boolean"
 }).option("html", {
     description: "Print's html table",
+    type: "boolean"
+}).option("installationid", {
+    alias: "i",
+    description: "shows your InstallationId",
     type: "boolean"
 }).help().alias("help", "h").argv;
 
@@ -419,6 +423,21 @@ if (argv._.includes("login") && argv._[0] == "login" && argv._.length == 1) {
                     console.error('\x1b[31m%s\x1b[0m', "Error");
                 });
         }
+    }
+
+} else if (argv.bs && !argv._.includes("login") && !argv.i) {
+    // get file contains of authkey.json
+    let jsonAuthKey = getAuthKey()
+    if (jsonAuthKey.responseStatus == "error") {
+        console.log('\x1b[33m%s\x1b[0m', jsonAuthKey.errorResp);
+    } else {
+        let countryCode = jsonAuthKey.phones[0].countryCode;
+        let installationId = jsonAuthKey.installationId;
+        const searchResult = truecallerjs.bulkSearch(argv.bs,countryCode,installationId)
+        searchResult.then(function (response) {
+            const data = JSON.stringify(response, null, 2);
+            console.log(data);
+        })
     }
 } else if (argv.i && !argv.s) {
     let jsonAuthKey = getAuthKey()

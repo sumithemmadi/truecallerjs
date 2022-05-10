@@ -160,6 +160,16 @@ To get raw output.
 "internetAddresses":[{"id":"email@gmail.com","service":"email","caption":"Sumith Emmadi","type":"internetAddress"}],"badges":["verified","user"],"cacheTtl":"","sources":[],"searchWarnings":[],"surveys":[]}],"provider":"ss-nu","stats":{"sourceStats":[]}}
 ```
 
+## To make a bulk number search 
+```sh
+~$ truecallerjs --bs [Numbers seperated by comma]
+```
+
+```bash
+Example : 
+ ~$ truecallerjs --bs 9912345678,+14051234567,+919987654321
+ ```
+
 To print only name.
 
 ```bash
