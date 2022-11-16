@@ -325,7 +325,7 @@ async function start_truecallerjs(argv, authkey) {
         }
         process.exit();
       } else {
-        if (`+${req_data.parsedPhoneNumber}` == pn.getNumber("e164")) {
+        if ("parsedPhoneNumber" in req_data && `+${req_data.parsedPhoneNumber}` == pn.getNumber("e164")) {
           console.log(
             "\n\nPrevious request was found for this mobile number.\n"
           );
@@ -350,6 +350,7 @@ async function start_truecallerjs(argv, authkey) {
               var x = readlineSync.question(
                 "Do you want to enter previous OTP (y/n): "
               );
+
             }
           }
         } else {
