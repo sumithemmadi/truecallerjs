@@ -13,6 +13,7 @@
   "dependencies": {
     "awesome-phonenumber": "^2.64.0",
     "axios": "^0.24.0",
+    "json-colorizer": "^2.2.2",
     "readline-sync": "^1.4.10",
     "xml2js": "^0.4.23",
     "yargs": "^17.2.1"
