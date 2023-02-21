@@ -474,7 +474,6 @@ async function start_truecallerjs(argv, authkey, truecallerjs_auth_dir) {
         try {
           console.log(argv.nc ? `Email : ${response.data[0].internetAddresses[0].id}` : `\x1b[33mEmail\x1b[0m : \x1b[32m${response.data[0].internetAddresses[0].id}\x1b[0m`);
         } catch (error) {
-          console.log("\x1b[33mEmail\x1b[0m : \x1b[32mEmail not found\x1b[0m");
           console.log(argv.nc ? "Email : Email not found" : "\x1b[33mEmail\x1b[0m : \x1b[32mEmail not found\x1b[0m");
 
         }

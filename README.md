@@ -144,9 +144,22 @@ sourceStats         : []
 ~$ truecallerjs --bs [Numbers seperated by comma]
 ```
 
-```bash
 Example : 
+
+```bash
  ~$ truecallerjs --bs 9912345678,+14051234567,+919987654321
+ ```
+
+- raw output
+- 
+ ```bash
+ ~$ truecallerjs --bs 9912345678,+14051234567,+919987654321 -r 
+ ```
+
+- no color
+  
+  ```bash
+ ~$ truecallerjs --bs 9912345678,+14051234567,+919987654321 --nc
  ```
 
 To print only name.
