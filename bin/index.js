@@ -25,15 +25,15 @@
 const yargs = require("yargs");
 const path = require("path");
 const fs = require("fs");
-const PhoneNumber = require("awesome-phonenumber");
+const { parsePhoneNumber } = require("awesome-phonenumber");
 var readlineSync = require("readline-sync");
 const axios = require("axios").default;
 const colorize = require('json-colorizer');
+var convert = require('json-to-plain-text');
 
 const phones_list = require("../src/phonesList.json");
-// const truecallerjs = require("../lib/main");
-
-
+var make_search = require("../lib/main");
+// var convertor = require("../")
 
 // argv
 const argv = yargs
@@ -65,24 +65,18 @@ const argv = yargs
     description: "Print's email assigned to the phonenumber",
     type: "boolean",
   })
+  .option("output", {
+    description: "Output type ",
+    type: "character",
+    choices: ['json', 'xml', 'yaml', 'html', "text"]
+  })
   .option("json", {
     description: "print's  output in json",
     type: "boolean",
   })
-  .option("xml", {
-    description: "print's  output in XML",
-    type: "boolean",
-  })
-  .option("yaml", {
-    description: "Print's  output in YAML",
-    type: "boolean",
-  })
-  .option("text", {
-    description: "Print's  output as plain text(TXT)",
-    type: "boolean",
-  })
-  .option("html", {
-    description: "Print's html table",
+  .option("nc", {
+    alias: "no_color",
+    description: "Print without color",
     type: "boolean",
   })
   .option("installationid", {
@@ -113,8 +107,8 @@ function generateRandomString(length) {
 async function send_otp(pn, phones_list, reqFile) {
   try {
     const data = {
-      countryCode: pn.getRegionCode(),
-      dialingCode: pn.getCountryCode(),
+      countryCode: pn.regionCode,
+      dialingCode: pn.countryCode,
       installationDetails: {
         app: {
           buildVersion: 5,
@@ -134,7 +128,7 @@ async function send_otp(pn, phones_list, reqFile) {
         },
         language: "en",
       },
-      phoneNumber: pn.getNumber("significant"),
+      phoneNumber: pn.number.significant,
       region: "region-2",
       sequenceNo: 2,
     };
@@ -151,7 +145,7 @@ async function send_otp(pn, phones_list, reqFile) {
       data,
     };
 
-    console.log(`\x1b[33mSending OTP to ${pn.getNumber("e164")}\x1b[0m`);
+    console.log(`\x1b[33mSending OTP to ${pn.number.e164}\x1b[0m`);
     var res = await axios(options);
 
     // checking otp sent status
@@ -178,17 +172,16 @@ async function truecallerjs_login(authkey, phones_list) {
 
   console.log("\x1b[33m%s\x1b[0m", "Login\n\n Enter mobile number in International Format\n Example : +919912345678.\n");
   var inputNumber = readlineSync.question("Enter Mobile Number : ");
-  var pn = PhoneNumber(inputNumber.toString());
+  var pn = parsePhoneNumber(inputNumber.toString());
 
   // check if number is in international format
-  if (inputNumber != pn.getNumber("e164")) {
+  if (inputNumber != pn.number.e164) {
     console.error("\x1b[31m%s\x1b[0m", "ERROR : Enter valid phone number in International Format");
     process.exit();
-
   }
 
   // check is number is valid
-  if (!pn.isValid()) {
+  if (!pn.valid) {
     console.error("\x1b[31mERROR : %s\x1b[0m", "Invalid phone number");
     process.exit();
   }
@@ -204,7 +197,7 @@ async function truecallerjs_login(authkey, phones_list) {
       var req_data = JSON.parse(fs.readFileSync(reqFile, "utf8"));
       // console.log(req_data)
 
-      if ("parsedPhoneNumber" in req_data && `+${req_data.parsedPhoneNumber}` == pn.getNumber("e164")) {
+      if ("parsedPhoneNumber" in req_data && `+${req_data.parsedPhoneNumber}` == pn.number.e164) {
 
         console.log("\n\nPrevious request was found for this mobile number.\n");
         var x = readlineSync.question("Do you want to enter previous OTP (y/n): ");
@@ -247,9 +240,9 @@ async function truecallerjs_login(authkey, phones_list) {
 
     try {
       const postData = {
-        countryCode: pn.getRegionCode(),
-        dialingCode: pn.getCountryCode(),
-        phoneNumber: pn.getNumber("significant"),
+        countryCode: pn.regionCode,
+        dialingCode: pn.countryCode,
+        phoneNumber: pn.number.significant,
         requestId,
         token,
       };
@@ -270,38 +263,32 @@ async function truecallerjs_login(authkey, phones_list) {
 
       var requestResponse = await axios(options2);
 
-
       // checking 
-      if (requestResponse == 200) {
-        if ((requestResponse.data.status == 2 && !requestResponse.data.suspended) || "installationId" in requestResponse.data) {
-          console.log(`\x1b[33mYour installationId\x1b[0m : \x1b[32m${requestResponse.data.installationId}\x1b[0m`);
+      if ((requestResponse.data.status == 2 && !requestResponse.data.suspended) || "installationId" in requestResponse.data) {
+        console.log(`\x1b[33mYour installationId\x1b[0m : \x1b[32m${requestResponse.data.installationId}\x1b[0m`);
 
-          // save the file
-          fs.writeFileSync(authkey, JSON.stringify(requestResponse.data, null, 3), (err) => {
-            if (err) {
-              console.log("\x1b[31m%s\x1b[0m", err.message);
-              process.exit();
-            }
-          });
+        // save the file
+        fs.writeFileSync(authkey, JSON.stringify(requestResponse.data, null, 3), (err) => {
+          if (err) {
+            console.log("\x1b[31m%s\x1b[0m", err.message);
+            process.exit();
+          }
+        });
 
-          console.log("\x1b[32m%s\x1b[0m", "Logged in successfully.");
-          fs.unlinkSync(reqFile);
+        console.log("\x1b[32m%s\x1b[0m", "Logged in successfully.");
+        fs.unlinkSync(reqFile);
 
-        } else if (requestResponse.data.status == 11) {
-          console.log("\x1b[31mERROR : %s\x1b[0m", "! Invalid OTP ");
+      } else if (requestResponse.data.status == 11) {
+        console.log("\x1b[31mERROR : %s\x1b[0m", "! Invalid OTP ");
 
-        } else if (requestResponse.data.suspended) {
-          console.log("\x1b[31mERROR : %s\x1b[0m", "Oops... Your account is suspended.");
+      } else if (requestResponse.data.suspended) {
+        console.log("\x1b[31mERROR : %s\x1b[0m", "Oops... Your account is suspended.");
 
-        } else if ("message" in requestResponse.data) {
-          console.log("\x1b[31mERROR : %s\x1b[0m", requestResponse.data.message);
+      } else if ("message" in requestResponse.data) {
+        console.log("\x1b[31mERROR : %s\x1b[0m", requestResponse.data.message);
 
-        } else {
-          console.log(JSON.stringify(requestResponse.data));
-        }
       } else {
-        console.error("\x1b[31mERROR : Something went wrong\x1b[0m");
-        process.exit()
+        console.log(JSON.stringify(requestResponse.data));
       }
     } catch (err) {
       console.error("\x1b[31mERROR : %s\x1b[0m", err.message);
@@ -360,29 +347,221 @@ async function truecallerjs_login_with_file(authkey, file) {
 
 
 // truecallerjs starts here
-if (argv._.includes("login") && !argv.s && !argv.bs) {
-  console.log(argv)
+async function start_truecallerjs(argv, authkey, truecallerjs_auth_dir) {
 
-  // Check whether '.truecallerjs' folder exist or not.
-  if (!fs.existsSync(truecallerjs_auth_dir)) {
-    try {
-      fs.mkdirSync(truecallerjs_auth_dir, { recursive: true });
-    } catch (error) {
-      console.error("Error : ", error.message);
-      process.exit()
+  if (argv._.includes("login") && !argv.s && !argv.bs) {
+    // console.log(argv)
+    // Check whether '.truecallerjs' folder exist or not.
+    if (!fs.existsSync(truecallerjs_auth_dir)) {
+      try {
+        fs.mkdirSync(truecallerjs_auth_dir, { recursive: true });
+      } catch (error) {
+        console.error("Error : ", error.message);
+        process.exit()
 
+      }
     }
-  }
 
-  // login
-  if (argv._[0] == "login" && argv._.length <= 2) {
-    if (argv._.length == 1) {
-      truecallerjs_login(authkey, phones_list)
+    // login
+    if (argv._[0] == "login" && argv._.length <= 2) {
+      if (argv._.length == 1) {
+        truecallerjs_login(authkey, phones_list)
+      } else {
+        truecallerjs_login_with_file(authkey, argv._[1])
+      }
     } else {
-      truecallerjs_login_with_file(authkey, argv._[1])
+      console.error("\x1b[31mERROR : Wrong command\x1b[0m.\nuse 'truecallerjs login'")
+      process.exit();
     }
+  } else if (argv.s && !argv.bs && !argv._.includes("login") && !argv.i) {
+
+    // check if authkey exist or not
+    if (!fs.existsSync(authkey)) {
+      console.error("\x1b[33mERROR : Please login to your account.\x1b[0m");
+      process.exit()
+    }
+
+    // read the file
+    try {
+      const data = fs.readFileSync(authkey, "utf8");
+      var jsonAuthKey = JSON.parse(data);
+    } catch (err) {
+      console.error("\x1b[31mERROR : %s\x1b[0m", err.message);
+      console.error("\x1b[33mERROR : Please login to your account.\x1b[0m");
+      process.exit()
+    }
+
+    var countryCode = jsonAuthKey.phones[0].countryCode;
+    var installationId = jsonAuthKey.installationId;
+
+    if (argv.output || argv.json) {
+      if (argv.json && argv.output) {
+        console.error("\x1b[31mERROR : Arguments 'json' and 'output' shound not be used at same time.\x1b[0m");
+        process.exit()
+      }
+
+      var searchResult = await make_search.searchNumber({
+        number: argv.s,
+        countryCode,
+        installationId,
+        output: argv.json ? "json" : argv.output,
+        color: !argv.nc,
+      });
+
+      if (argv.json || argv.output == "json") {
+
+        // const data = JSON.stringify(searchResult);
+        if (argv.r) {
+          console.log(!argv.nc ? colorize(searchResult) : JSON.stringify(searchResult));
+        } else {
+          console.log(!argv.nc ? colorize(searchResult, { pretty: true }) : JSON.stringify(searchResult, null, 3));
+        }
+      } else if (!argv.json && argv.output) {
+        console.log(searchResult)
+      }
+    } else {
+      var searchData = {
+        number: argv.s,
+        countryCode,
+        installationId,
+      };
+
+      // console.log(searchData)
+      const response = await make_search.searchNumber(searchData);
+
+      if (response.data == "null") {
+        console.error("\x1b[31mERROR : %s\x1b[0m", response.errorResp);
+        process.exit()
+      } else if (response == '""') {
+        console.error("\x1b[31mERROR : Error in input\x1b[0m");
+        process.exit()
+
+        // } else if (argv.no_color && !argv.n && !argv.e) {
+        //   var cdata = convert.toPlainText(response, false, true);
+        //   console.log(cdata)
+
+
+      } else if (argv.n && !argv.r && !argv.e) {
+        if ("data" in response) {
+          var data1 = response.data[0];
+          if ("name" in data1) {
+            if ("altName" in data1) {
+              console.log(argv.nc ? `Name : ${response.data[0].name}` : `\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].name}\x1b[0m`);
+              console.log(argv.nc ? `33mAlternate Name : ${response.data[0].altName}` : `\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].altName}\x1b[0m`);
+            } else {
+              console.log(argv.nc ? `Name : ${response.data[0].name}` : `\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].name}\x1b[0m`);
+            }
+          } else {
+            console.log(argv.nc ? "Name : Unknown Name" : "\x1b[33mName\x1b[0m : \x1b[32mUnknown Name\x1b[0m");
+
+          }
+        } else {
+          console.log(argv.nc ? "Name : Unknown Name" : "\x1b[33mName\x1b[0m : \x1b[32mUnknown Name\x1b[0m");
+        }
+      } else if (argv.n && argv.r && !argv.e) {
+        if ("data" in response) {
+          var data1 = response.data[0];
+          if ("name" in data1) {
+            console.log(response.data[0].name);
+          } else {
+            console.log("Unknown Name");
+          }
+        } else {
+          console.log("Unknown Name");
+        }
+      } else if (!argv.n && !argv.r && argv.e) {
+
+        try {
+          console.log(argv.nc ? `Email : ${response.data[0].internetAddresses[0].id}` : `\x1b[33mEmail\x1b[0m : \x1b[32m${response.data[0].internetAddresses[0].id}\x1b[0m`);
+        } catch (error) {
+          console.log("\x1b[33mEmail\x1b[0m : \x1b[32mEmail not found\x1b[0m");
+          console.log(argv.nc ? "Email : Email not found" : "\x1b[33mEmail\x1b[0m : \x1b[32mEmail not found\x1b[0m");
+
+        }
+
+      } else if (!argv.n && argv.r && argv.e) {
+
+        try {
+          console.log(response.data[0].internetAddresses[0].id);
+        } catch (error) {
+          console.log("Email not found");
+        }
+
+      } else {
+        var cdata = convert.toPlainText(response, !argv.nc, true);
+        console.log(cdata);
+      }
+    }
+
+  } else if (!argv.s && argv.bs && !argv._.includes("login") && !argv.i) {
+    // check if authkey exist or not
+    if (!fs.existsSync(authkey)) {
+      console.error("\x1b[33mERROR : Please login to your account.\x1b[0m");
+      process.exit()
+    }
+
+    // read the file
+    try {
+      const data = fs.readFileSync(authkey, "utf8");
+      var jsonAuthKey = JSON.parse(data);
+    } catch (err) {
+      console.error("\x1b[31mERROR : %s\x1b[0m", err.message);
+      console.error("\x1b[33mERROR : Please login to your account.\x1b[0m");
+      process.exit()
+    }
+
+    let countryCode = jsonAuthKey.phones[0].countryCode;
+    let installationId = jsonAuthKey.installationId;
+    var searchResult = await make_search.bulkSearch(
+      argv.bs,
+      countryCode,
+      installationId
+    );
+
+    if (searchResult.data == "null") {
+      console.error("\x1b[31mERROR : %s\x1b[0m", searchResult.errorResp);
+      process.exit()
+    }
+
+    // const data = JSON.stringify(searchResult);
+    if (argv.r) {
+      console.log(!argv.nc ? colorize(JSON.stringify(searchResult)) : JSON.stringify(searchResult));
+    } else {
+      console.log(!argv.nc ? colorize(JSON.stringify(searchResult), { pretty: true }) : JSON.stringify(searchResult, null, 3));
+    }
+
+
+  } else if (!argv.s && !argv.bs && !argv._.includes("login") && argv.i) {
+    // check if authkey exist or not
+    if (!fs.existsSync(authkey)) {
+      console.error("\x1b[33mERROR : Please login to your account.\x1b[0m");
+      process.exit()
+    }
+
+    // read the file
+    try {
+      const data = fs.readFileSync(authkey, "utf8");
+      var jsonAuthKey = JSON.parse(data);
+    } catch (err) {
+      console.error("\x1b[31mERROR : %s\x1b[0m", err.message);
+      console.error("\x1b[33mERROR : Please login to your account.\x1b[0m");
+      process.exit()
+    }
+
+    // let countryCode = jsonAuthKey.phones[0].countryCode;
+    let installationId = jsonAuthKey.installationId;
+    if (argv.r) {
+      console.log(installationId);
+    } else {
+      console.log(argv.nc ? `Your InstallationId : ${installationId}` : `\x1b[33mYour InstallationId\x1b[0m : \x1b[32m${installationId}\x1b[0m`
+      );
+    }
+
   } else {
-    console.error("ERROR : Wrong command. use 'truecallerjs login'")
-    process.exit();
+    yargs.showHelp();
   }
 }
+
+start_truecallerjs(argv, authkey, truecallerjs_auth_dir);
+// console.log(argv)
+

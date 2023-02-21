@@ -88,6 +88,10 @@ Print only installation Id.
 truecallerjs -i -r
 ```
 
+
+> Note : If you are using truecallerjs version less than [1.1.2](https://github.com/sumithemmadi/truecallerjs/tree/truecallerjs-v1.1.2). follow [truecallerjs-v1.1.2](https://github.com/sumithemmadi/truecallerjs/tree/truecallerjs-v1.1.2) documentation.
+
+
 ### Searching a number
 
 ```bash
@@ -95,72 +99,47 @@ truecallerjs -i -r
 ```
 
 ```yaml
-{
-   "data": [
-      {
-         "id": "jsiebejebbeebhee/dnss00w==",
-         "name": "Sumith Emmadi",
-         "imId": "1g7rm006b356o",
-         "gender": "UNKNOWN",
-         "image": "https://storage.googleapis.com/tc-images-noneu/myview/1/jdvdidbdhvdjdvddbkdbeiebeieb",
-         "score": 0.9,
-         "access": "PUBLIC",
-         "enhanced": true,
-         "phones": [
-            {
-               "e164Format": "+000000000000",
-               "numberType": "MOBILE",
-               "nationalFormat": "+000000000000",
-               "dialingCode": 91,
-               "countryCode": "IN",
-               "carrier": "Airtel",
-               "type": "openPhone"
-            }
-         ],
-         "addresses": [
-            {
-               "city": "Andhra Pradesh",
-               "countryCode": "IN",
-               "timeZone": "+05:30",
-               "type": "address"
-            }
-         ],
-         "internetAddresses": [
-            {
-               "id": "email@gmail.com",
-               "service": "email",
-               "caption": "Sumith Emmadi",
-               "type": "internetAddress"
-            }
-         ],
-         "badges": [
-            "verified",
-            "user"
-         ],
-         "cacheTtl": "",
-         "sources": [],
-         "searchWarnings": [],
-         "surveys": []
-      }
-   ],
-   "provider": "ss-nu",
-   "stats": {
-      "sourceStats": []
-   }
-}
+data                : 
+id                  : jsiebejebbeebhee/dnss00w==
+name                : Sumith Emmadi
+imId                : 1g7rm006b356o
+gender              : UNKNOWN
+image               : https://storage.googleapis.com/tc-images-noneu/myview/1/jdvdidbdhvdjdvddbkdbeiebeieb
+score               : 0.9
+access              : PUBLIC
+enhanced            : true
+phones              : 
+e164Format          : +000000000000
+numberType          : MOBILE
+nationalFormat      : +000000000000
+dialingCode         : 91
+countryCode         : IN
+carrier             : Airtel
+type                : openPhone
+addresses           : 
+city                : Andhra Pradesh
+countryCode         : IN
+timeZone            : +05:30
+type                : address
+internetAddresses   : 
+id                  : email@gmail.com
+service             : email
+caption             : Sumith Emmadi
+type                : internetAddress
+badges              : verified, user
+cacheTtl            :
+sources             : []
+searchWarnings      : []
+surveys             : []
+provider            : ss-nu
+stats               :
+sourceStats         : []
+
 ```
 
-To get raw output.
-
-```bash
-~$ truecallerjs -r -s [number]
-
-{"data":[{"id":"jsiebejebbeebhee/dnss00w==","name":"Sumith Emmadi","imId":"1g7rm006b356o","gender":"UNKNOWN","image":"https://storage.googleapis.com/tc-images-noneu/myview/1/jdvdidbdhvdjdvddbkdbeiebeieb","score":0.9,"access":"PUBLIC","enhanced":true,
-"phones":[{"e164Format":"+000000000000","numberType":"MOBILE","nationalFormat":"+000000000000","dialingCode":91,"countryCode":"IN","carrier":"Airtel","type":"openPhone"}],"addresses":[{"city":"Andhra Pradesh","countryCode":"IN","timeZone":"+05:30","type":"address"}],
-"internetAddresses":[{"id":"email@gmail.com","service":"email","caption":"Sumith Emmadi","type":"internetAddress"}],"badges":["verified","user"],"cacheTtl":"","sources":[],"searchWarnings":[],"surveys":[]}],"provider":"ss-nu","stats":{"sourceStats":[]}}
-```
 
 ## To make a bulk number search 
+
 ```sh
 ~$ truecallerjs --bs [Numbers seperated by comma]
 ```
@@ -194,17 +173,35 @@ Sumith Emmadi
 * 3 . YAML
 * 4 . TEXT
 * 5 . HTML
+* 
+```bash
+~$ truecallerjs -s [number] --output=[output format]
+```
+- Output without colouring
+
+```bash
+~$ truecallerjs -s [number] --output=[output format] --nc
+```
 
 #### To get only JSON output
 
 ```bash
 ~$ truecallerjs -s [number] --json
 ```
+```bash
+~$ truecallerjs -s [number] --output=json
+```
+- Prints data without color
+
+```bash
+~$ truecallerjs -s [number] --output=json --nc
+```
+
 
 #### To get XML output
 
 ```bash
-~$ truecallerjs -s [number] --xml
+~$ truecallerjs -s [number] --output=xml
 ```
 
 ```xml
@@ -258,7 +255,7 @@ Sumith Emmadi
 #### To get YAML output
 
 ```bash
-~$ truecallerjs -s [number] --yaml
+~$ truecallerjs -s [number] --output=yaml
 ```
 
 ```yaml
@@ -314,7 +311,8 @@ stats:
 #### To get output as a plain text
 
 ```bash
-~$ truecallerjs -s [number] --text
+~$ truecallerjs -s [number] --output=text
+
 ```
 
 ```yaml
@@ -358,7 +356,7 @@ sourceStats         : []
 #### To get HTML output
 
 ```bash
-~$ truecallerjs -s [number] --html
+~$ truecallerjs -s [number] --output=html
 ```
 
 ```xml
@@ -542,7 +540,8 @@ var searchData = {
     number: "[PHONE_NUMBER]",
     countryCode: "[COUNTRY_CODE]",
     installationId: "[INSTALLATION_ID]",
-    output: "[FORMAT]"
+    output: "[FORMAT]".
+    color: true/false
 }
 
 var sn = truecallerjs.searchNumber(searchData);
@@ -564,15 +563,15 @@ sn.then(function(response) {
 
 * **InstallationId**
 
-```bash
+```sh
 npm install -g  truecallerjs
 ```
 
 * [Login to you account](https://github.com/sumithemmadi/truecallerjs#Login).
 * Enter the below command to see your **InstallationId**.
 
-```bash
-truecallerjs --installationid
+```sh
+truecallerjs --i
 ```
 
 ### Examples
@@ -672,6 +671,25 @@ sn.then(function(response) {
 });
 ```
 
+- coloured output
+  
+```js
+const truecallerjs = require('truecallerjs');
+
+var searchData = {
+    number: "09912345678",
+    countryCode: "IN",
+    installationId: "a1k07--Vgdfyvv_rftf5uuudhuhnkljyvvtfftjuhbuijbhug",
+    output: "HTML",
+    color: true
+}
+
+var sn = truecallerjs.searchNumber(searchData);
+sn.then(function(response) {
+    console.log(response)
+});
+```
+
 ## Make a bulk search in your project.
 
 ```js
@@ -679,7 +697,7 @@ const truecallerjs = require('truecallerjs');
 
 var countryCode = "IN";
 var installationId = "a1k07--Vgdfyvv_rftf5uuudhuhnkljyvvtfftjuhbuijbhug";
-var phoneNumbers = "+9912345678,+14051234567,+919987654321" // Phone numbers seperated by comma's
+var phoneNumbers = "9912345678,+14051234567,+919987654321" // Phone numbers seperated by comma's
 
 const searchResult = truecallerjs.bulkSearch(phoneNumbers,countryCode,installationId)
 searchResult.then(function (response) {
