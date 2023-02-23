@@ -447,7 +447,7 @@ async function start_truecallerjs(argv, authkey, truecallerjs_auth_dir) {
           if ("name" in data1) {
             if ("altName" in data1) {
               console.log(argv.nc ? `Name : ${response.data[0].name}` : `\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].name}\x1b[0m`);
-              console.log(argv.nc ? `33mAlternate Name : ${response.data[0].altName}` : `\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].altName}\x1b[0m`);
+              console.log(argv.nc ? `Alternate Name : ${response.data[0].altName}` : `\x1b[33mAlternate Name\x1b[0m : \x1b[32m${response.data[0].altName}\x1b[0m`);
             } else {
               console.log(argv.nc ? `Name : ${response.data[0].name}` : `\x1b[33mName\x1b[0m : \x1b[32m${response.data[0].name}\x1b[0m`);
             }
