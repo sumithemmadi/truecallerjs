@@ -158,7 +158,7 @@ Example :
 
 - no color
   
-  ```bash
+ ```bash
  ~$ truecallerjs --bs 9912345678,+14051234567,+919987654321 --nc
  ```
 
