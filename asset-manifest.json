@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/truecallerjs/static/css/main.073c9b0a.css",
+    "main.js": "/truecallerjs/static/js/main.eb1f366c.js",
+    "static/js/787.12b60875.chunk.js": "/truecallerjs/static/js/787.12b60875.chunk.js",
+    "static/media/logo.svg": "/truecallerjs/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/truecallerjs/index.html",
+    "main.073c9b0a.css.map": "/truecallerjs/static/css/main.073c9b0a.css.map",
+    "main.eb1f366c.js.map": "/truecallerjs/static/js/main.eb1f366c.js.map",
+    "787.12b60875.chunk.js.map": "/truecallerjs/static/js/787.12b60875.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.eb1f366c.js"
+  ]
+}
