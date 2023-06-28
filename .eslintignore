@@ -1,0 +1,6 @@
+./src/convertor.cjs
+node_modules
+test
+dist
+build
+.truecallerjs/authkey.json
