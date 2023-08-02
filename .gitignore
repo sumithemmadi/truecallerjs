@@ -1,0 +1,5 @@
+node_modules/
+.truecallerjs/authkey.json
+coverage
+test/authkey.json
+test/request.json

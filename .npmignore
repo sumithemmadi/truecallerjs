@@ -1,0 +1,20 @@
+docs/
+
+# Ignore source files
+src/
+
+# Ignore development and configuration files
+node_modules/
+coverage/
+CODE_OF_CONDUCT.md
+SECURITY.md
+test/
+.git
+.gitkeep
+.github
+.eslint*
+.prettier*
+
+jest.config.ts
+
+
