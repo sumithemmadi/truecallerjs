@@ -118,7 +118,7 @@ npm install truecallerjs
 
 Here's a basic example of how to perform a normal search for a phone number:
 
-```js
+```ts
 import truecallerjs, { SearchData, Format } from "truecallerjs";
 
 async function performTruecallerSearch(): Promise<void> {
@@ -159,7 +159,7 @@ In the above example, the `truecallerjs` package is used to search for a phone n
 
 The `truecallerjs` package also supports bulk search on multiple phone numbers:
 
-```js
+```ts
 import truecallerjs, { BulkSearchData, Format } from "truecallerjs";
 
 async function performBulkTruecallerSearch(): Promise<void> {
@@ -207,17 +207,21 @@ Please note that all contributions should align with the spirit of the repositor
 
 TruecallerJS is open source and licensed under the MIT License. See the LICENSE file for more information.
 
-## 💝 Sponsor
+## 💝 Sponsor and support me
 
-If you find TruecallerJS helpful or inspiring, consider supporting me through GitHub Sponsors. Your sponsorship helps me dedicate more time and effort to open source development and creating impactful projects.
+If you find my project helpful or inspiring, consider supporting me through GitHub Sponsors. Your sponsorship helps me dedicate more time and effort to open source development and creating impactful projects.
 
-- **Sponsor Me**: [https://github.com/sponsors/sumithemmadi](https://github.com/sponsors/sumithemmadi/)
-- **Paypal**: [paypal.me/sumithemmadi](https://paypal.me/sumithemmadi)
-- **UPI ID** : sumithemmadi@paytm
+[:heart: Sponsor me on github](https://github.com/sponsors/sumithemmadi?o=sd&sc=t)
+
+<a href='https://ko-fi.com/W7W4OZNLF' target='_blank'><img height='40' style='border:0px;height:40px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
+<a href="https://www.buymeacoffee.com/sumithemmadi"> <img align="left" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="40" width="180" alt="sumithemmadi" /></a><br><br>
 
 ### 💖 Sponsors
 
 [![Sponsors](https://sumithemmadi.github.io/sponsors.svg)](https://github.com/sponsors/sumithemmadi/)
+
+- I want to extend my sincere gratitude to all my sponsors for their generous support.
 
 ## Acknowledgments
 
