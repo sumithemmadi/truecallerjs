@@ -217,7 +217,7 @@ If you find TruecallerJS helpful or inspiring, consider supporting me through Gi
 
 ### 💖 Sponsors
 
-[![Sponsors](https://sumithemmadi.github.io/sponsor.svg)](https://github.com/sponsors/sumithemmadi/)
+[![Sponsors](https://sumithemmadi.github.io/sponsors.svg)](https://github.com/sponsors/sumithemmadi/)
 
 ## Acknowledgments
 
