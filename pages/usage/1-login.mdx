@@ -1,0 +1,198 @@
+## Login
+
+## Installation
+
+- To install the truecallerjs package, run the following command:
+
+```bash copy
+npm install truecallerjs
+```
+
+## Login
+
+The `login` function is used to log in to the Truecaller service. It takes a phone number in international format as a parameter and returns a JSON object containing the login request details.
+
+Method Signature
+
+```bash
+truecallerjs.login(phonenumber)
+```
+
+- phonenumber (String): The phone number in international format.
+
+### Return Value
+
+The function returns a Promise that resolves to a JSON object with the following properties:
+
+- `status` (Number): The status code of the login request. Possible values are 1 (OTP sent successfully) or 9 (request in pending).
+- `message` (String): A message indicating the status of the login request.
+- `domain` (String): The domain associated with the phone number.
+- `parsedPhoneNumber` (Number): The phone number without the country code.
+- `parsedCountryCode` (String): The country code associated with the phone number.
+- `requestId` (String): The unique identifier for the login request.
+- `method` (String): The method used for sending the OTP (e.g., "sms").
+- `tokenTtl` (Number): The time-to-live (TTL) value for the OTP token in seconds.
+
+### Example
+
+```ts copy
+import truecallerjs, { LoginResponse } from "truecallerjs";
+
+async function performLogin(): Promise<void> {
+  try {
+    const phoneNumber: string = "+919912345678";
+    const json_data: LoginResponse = await truecallerjs.login(phoneNumber);
+
+    // Example response:
+    // {
+    //     "status": 1,
+    //     "message": "Sent",
+    //     "domain": "noneu",
+    //     "parsedPhoneNumber": 919912345678,
+    //     "parsedCountryCode": "IN",
+    //     "requestId": "6fe0eba6-acds-24dc-66de-15b3fba349c3",
+    //     "method": "sms",
+    //     "tokenTtl": 300
+    // }
+
+    if (json_data.status === 1 || json_data.status === 9) {
+      // OTP sent successfully
+      // Handle the response accordingly
+      console.log("OTP sent successfully");
+      console.log("Request ID:", json_data.requestId);
+      console.log("Token TTL:", json_data.tokenTtl);
+    } else if (json_data.status === 6 || json_data.status === 5) {
+      // Verification attempts exceeded
+      // Handle the response accordingly
+      console.log("Verification attempts exceeded");
+      console.log("Status:", json_data.status);
+      console.log("Message:", json_data.message);
+    } else {
+      // Unknown response
+      // Handle the response accordingly
+      console.log("Unknown response");
+      console.log("Status:", json_data.status);
+      console.log("Message:", json_data.message);
+    }
+  } catch (error) {
+    console.error("Error occurred:", error);
+  }
+}
+
+performLogin();
+```
+
+> **Note** : Make sure to replace +919912345678 with the actual phone number you want to use.
+
+| status    | message                         |
+| ----------|---------------------------------|
+| 1         | OTP sent successfully           |
+| 9         | Request in pending              |
+| 6 or 5    | Verification Attempts Exceeded  |
+
+- Save this json in a file or store in a variable. This json will be used to verify OTP in `verifyOtp()` function.
+
+### OTP Verification
+
+- The verifyOtp function is used to verify the mobile number with the OTP (One-Time Password) received.
+
+```ts copy
+import truecallerjs, { LoginResponse } from "truecallerjs";
+
+async function performOtpVerification(): Promise<void> {
+  try {
+    const phoneNumber: string = "+919912345678";
+    const json_data: LoginResponse = await truecallerjs.login(phoneNumber);
+
+    // Example response from login:
+    // {
+    //    "status": 1,
+    //    "message": "Sent",
+    //    "domain": "noneu",
+    //    "parsedPhoneNumber": 919912345678,
+    //    "parsedCountryCode": "IN",
+    //    "requestId": "6fe0eba6-acds-24dc-66de-15b3fba349c3",
+    //    "method": "sms",
+    //    "tokenTtl": 300
+    // }
+
+    const otp: string = "123456"; // Replace with the actual OTP
+
+    const res: object = await truecallerjs.verifyOtp(
+      phoneNumber,
+      json_data,
+      otp
+    );
+
+    console.log(res);
+
+    // Example response from OTP verification:
+    // {
+    //    "status": 2,
+    //    "message": "Verified",
+    //    "installationId": "a1k07--Vgdfyvv_rftf5uuudhuhnkljyvvtfftjuhbuijbhug",
+    //    "ttl": 259200,
+    //    "userId": 1234567890123456789,
+    //    "suspended": false,
+    //    "phones": [
+    //       {
+    //          "phoneNumber": 919912345678,
+    //          "countryCode": "IN",
+    //          "priority": 1
+    //       }
+    //    ]
+    // }
+
+    if (res.status === 2 && !res.suspended) {
+      // LOGIN SUCCESSFUL
+      console.log("Login successful");
+      console.log("Installation ID:", res.installationId);
+      console.log("User ID:", res.userId);
+    } else if (res.status === 11) {
+      // INVALID OTP
+      console.log("Invalid OTP");
+      console.log("Status:", res.status);
+      console.log("Message:", res.message);
+    } else if (res.status === 7) {
+      // RETRIES LIMIT EXCEEDED
+      console.log("Retries limit exceeded");
+      console.log("Status:", res.status);
+      console.log("Message:", res.message);
+    } else if (res.suspended) {
+      // ACCOUNT SUSPENDED
+      console.log("Account suspended");
+      console.log("Status:", res.status);
+      console.log("Message:", res.message);
+    } else {
+      // UNKNOWN RESPONSE
+      console.log("Unknown response");
+      console.log("Message:", res.message);
+    }
+  } catch (error) {
+    console.error("Error occurred:", error);
+  }
+}
+
+performOtpVerification();
+```
+
+| status    | message                         |
+| ----------|---------------------------------|
+| 2         | Login Successful                |
+| 11        | Invalid OTP                     |
+| 7         | OTP Retries exceeded            |
+
+Make sure to replace phonenumber with the actual phone number, json_data with the JSON response obtained from the login function, and otp with the actual OTP received.
+
+The `res` variable will contain the JSON response from the OTP verification request. You can access the properties of the response to handle different scenarios:
+
+- If `res.status` is 2 and `res.suspended` is `false`, it means the login was successful.
+  `res.installationId`, `res.suspended`, `res.phones[0].phoneNumber`, and `res.phones[0].countryCode` properties for further processing.
+
+- If `res.status` is `11`, it means the OTP entered is invalid.
+
+- If `res.status` is `7`, it means the number of OTP verification retries has exceeded the limit.
+
+- If `res.suspended` is `true`, it means the account is suspended.
+
+- For any other response, you can check `res.status` and res.message for more information.

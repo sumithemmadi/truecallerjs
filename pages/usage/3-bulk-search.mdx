@@ -1,0 +1,27 @@
+# Bulk Search
+
+
+The `truecallerjs` package also supports bulk search on multiple phone numbers:
+
+```ts copy
+import truecallerjs, { BulkSearchData, Format } from "truecallerjs";
+
+async function performBulkTruecallerSearch(): Promise<void> {
+  const countryCode: string = "IN";
+  const installationId: string = "a1k07--Vgdfyvv_rftf5uuudhuhnkljyvvtfftjuhbuijbhug";
+  const phoneNumbers: string = "+9912345678,+14051234567,+919987654321";
+
+  try {
+    const response: BulkSearchData = await truecallerjs.bulkSearch(phoneNumbers, countryCode, installationId);
+    console.log(response);
+  } catch (error) {
+    console.error("Error occurred:", error);
+  }
+}
+
+performBulkTruecallerSearch();
+```
+
+In this example, the `truecallerjs.bulkSearch()` function is used to perform bulk searches on multiple phone numbers. The `phoneNumbers` parameter should contain the phone numbers separated by commas. The `countryCode` and `installationId` parameters are used to specify the default country code and installation ID, respectively.
+
+> **Note** : Make sure to log in using the `truecallerjs login` command and obtain your installation ID using the `truecallerjs -i` command.
