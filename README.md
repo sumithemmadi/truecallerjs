@@ -12,6 +12,18 @@
 
 Welcome to TruecallerJS! This is a library for retrieving phone number details using the Truecaller API. It provides a simple and convenient way to access information about phone numbers in your Node.js, JavaScript, and TypeScript projects.
 
+> [!CAUTION]
+> **CRITICAL NOTICE (2025): Project Currently Non-Functional**
+> Truecaller has implemented strict server-side restrictions that block the API endpoints used by this library. 
+> 
+> **Status:**
+> - `truecallerjs login`: Request succeeds (Status 20003), but **OTP is never delivered**.
+> - Workarounds: Previously fetching `installationId` from web sessions was possible, but recent reports suggest this method is also unreliable or no longer compatible with the specific API endpoints this library uses.
+> 
+> **Conclusion:**
+> As of Feb 2026, this library should be considered **broken/deprecated** until a new method for unofficial access is discovered. Use official Truecaller Business SDKs for reliable service.
+
+
 ## Description
 
 TruecallerJS is built to simplify the process of fetching phone number details. With this library, you can easily integrate Truecaller functionality into your Node.js, JavaScript, and TypeScript applications. It abstracts the complexities of interacting with the Truecaller API and provides a streamlined interface for fetching and processing phone number information.

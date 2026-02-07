@@ -33,7 +33,10 @@ import os from "os";
 import { login } from "./login.js";
 import { verifyOtp } from "./verifyOtp.js";
 import { search, bulkSearch } from "./search.js";
-import colorizeJson from "json-colorizer";
+// json-colorizer v3 uses named exports.
+// We use a namespace import here to handle potential ESM/CJS interop issues during the build process.
+import * as jsonColorizer from "json-colorizer";
+const colorizeJson = jsonColorizer.colorize;
 const homePath = os.homedir();
 const truecallerjsAuthDirPath = path.join(homePath, ".config", "truecallerjs");
 const requestFilePath = path.join(truecallerjsAuthDirPath, "request.json");
@@ -154,6 +157,9 @@ const runCLI = async () => {
             }
             if (response.status == 1 ||
                 response.status == 9 ||
+                response.status == 2 ||
+                // Status 20003 is the new success code for OTP sent (observed Feb 2025/2026)
+                response.status == 20003 ||
                 response.message == "Sent") {
                 // Otp sent
                 try {
@@ -244,9 +250,9 @@ const runCLI = async () => {
                         console.log(!args.nc
                             ? colorizeJson(JSON.stringify(search_result.json()), {
                                 colors: {
-                                    STRING_KEY: "blue",
-                                    STRING_LITERAL: "green",
-                                    NUMBER_LITERAL: "magenta",
+                                    StringKey: chalk.blue,
+                                    StringLiteral: chalk.green,
+                                    NumberLiteral: chalk.magenta,
                                 },
                             })
                             : JSON.stringify(search_result.json()));
@@ -254,11 +260,10 @@ const runCLI = async () => {
                     else {
                         console.log(!args.nc
                             ? colorizeJson(JSON.stringify(search_result.json()), {
-                                pretty: true,
                                 colors: {
-                                    STRING_KEY: "blue",
-                                    STRING_LITERAL: "green",
-                                    NUMBER_LITERAL: "magenta",
+                                    StringKey: chalk.blue,
+                                    StringLiteral: chalk.green,
+                                    NumberLiteral: chalk.magenta,
                                 },
                             })
                             : JSON.stringify(search_result.json(), null, 2));
@@ -317,9 +322,9 @@ const runCLI = async () => {
                 console.log(!args.nc
                     ? colorizeJson(JSON.stringify(searchResult), {
                         colors: {
-                            STRING_KEY: "blue",
-                            STRING_LITERAL: "green",
-                            NUMBER_LITERAL: "magenta",
+                            StringKey: chalk.blue,
+                            StringLiteral: chalk.green,
+                            NumberLiteral: chalk.magenta,
                         },
                     })
                     : JSON.stringify(searchResult));
@@ -327,11 +332,10 @@ const runCLI = async () => {
             else {
                 console.log(!args.nc
                     ? colorizeJson(JSON.stringify(searchResult), {
-                        pretty: true,
                         colors: {
-                            STRING_KEY: "blue",
-                            STRING_LITERAL: "green",
-                            NUMBER_LITERAL: "magenta",
+                            StringKey: chalk.blue,
+                            StringLiteral: chalk.green,
+                            NumberLiteral: chalk.magenta,
                         },
                     })
                     : JSON.stringify(searchResult, null, 2));

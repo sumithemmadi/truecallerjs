@@ -35,7 +35,10 @@ import os from "os";
 import { login } from "./login.js";
 import { verifyOtp } from "./verifyOtp.js";
 import { search, bulkSearch } from "./search.js";
-import colorizeJson from "json-colorizer";
+// json-colorizer v3 uses named exports.
+// We use a namespace import here to handle potential ESM/CJS interop issues during the build process.
+import * as jsonColorizer from "json-colorizer";
+const colorizeJson = jsonColorizer.colorize;
 
 const homePath = os.homedir();
 const truecallerjsAuthDirPath = path.join(homePath, ".config", "truecallerjs");
@@ -129,8 +132,8 @@ const runCLI = async () => {
         chalk.yellow.bold(
           "Login\n\n Enter mobile number in International Format\n Example : ",
         ) +
-          chalk.magenta("+919912345678") +
-          ".\n",
+        chalk.magenta("+919912345678") +
+        ".\n",
       );
 
       const inputNumber = await inquirer.prompt({
@@ -193,6 +196,9 @@ const runCLI = async () => {
       if (
         response.status == 1 ||
         response.status == 9 ||
+        response.status == 2 ||
+        // Status 20003 is the new success code for OTP sent (observed Feb 2025/2026)
+        response.status == 20003 ||
         response.message == "Sent"
       ) {
         // Otp sent
@@ -226,7 +232,7 @@ const runCLI = async () => {
           if (response1.status === 2 && !response1.suspended) {
             console.log(
               chalk.yellow.bold("Your installationId: ") +
-                chalk.green(response1.installationId),
+              chalk.green(response1.installationId),
             );
             console.log(
               `This is the installationId: ${chalk.green(
@@ -304,25 +310,24 @@ const runCLI = async () => {
             console.log(
               !args.nc
                 ? colorizeJson(JSON.stringify(search_result.json()), {
-                    colors: {
-                      STRING_KEY: "blue",
-                      STRING_LITERAL: "green",
-                      NUMBER_LITERAL: "magenta",
-                    },
-                  })
+                  colors: {
+                    StringKey: chalk.blue,
+                    StringLiteral: chalk.green,
+                    NumberLiteral: chalk.magenta,
+                  } as any,
+                })
                 : JSON.stringify(search_result.json()),
             );
           } else {
             console.log(
               !args.nc
                 ? colorizeJson(JSON.stringify(search_result.json()), {
-                    pretty: true,
-                    colors: {
-                      STRING_KEY: "blue",
-                      STRING_LITERAL: "green",
-                      NUMBER_LITERAL: "magenta",
-                    },
-                  })
+                  colors: {
+                    StringKey: chalk.blue,
+                    StringLiteral: chalk.green,
+                    NumberLiteral: chalk.magenta,
+                  } as any,
+                })
                 : JSON.stringify(search_result.json(), null, 2),
             );
           }
@@ -385,25 +390,24 @@ const runCLI = async () => {
         console.log(
           !args.nc
             ? colorizeJson(JSON.stringify(searchResult), {
-                colors: {
-                  STRING_KEY: "blue",
-                  STRING_LITERAL: "green",
-                  NUMBER_LITERAL: "magenta",
-                },
-              })
+              colors: {
+                StringKey: chalk.blue,
+                StringLiteral: chalk.green,
+                NumberLiteral: chalk.magenta,
+              } as any,
+            })
             : JSON.stringify(searchResult),
         );
       } else {
         console.log(
           !args.nc
             ? colorizeJson(JSON.stringify(searchResult), {
-                pretty: true,
-                colors: {
-                  STRING_KEY: "blue",
-                  STRING_LITERAL: "green",
-                  NUMBER_LITERAL: "magenta",
-                },
-              })
+              colors: {
+                StringKey: chalk.blue,
+                StringLiteral: chalk.green,
+                NumberLiteral: chalk.magenta,
+              } as any,
+            })
             : JSON.stringify(searchResult, null, 2),
         );
       }
@@ -432,10 +436,10 @@ const runCLI = async () => {
         args.nc
           ? console.log("Your InstallationId : " + installationId)
           : console.log(
-              chalk.blue.bold("Your InstallationId") +
-                " : " +
-                chalk.green(installationId),
-            );
+            chalk.blue.bold("Your InstallationId") +
+            " : " +
+            chalk.green(installationId),
+          );
       }
     } catch (error: unknown) {
       if (error instanceof Error) {

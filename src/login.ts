@@ -1,26 +1,5 @@
-// MIT License
 
-// Copyright (c) 2021 Emmadi Sumith Kumar
-
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
-import axios from "axios";
+import request from "./utils/request.js";
 import { parsePhoneNumber } from "awesome-phonenumber";
 import { device } from "./data/phones.js";
 
@@ -61,7 +40,7 @@ async function login(phoneNumber: string): Promise<LoginResponse> {
   }
 
   const postUrl =
-    "https://account-asia-south1.truecaller.com/v2/sendOnboardingOtp";
+    "https://account-noneu.truecaller.com/v2/sendOnboardingOtp";
 
   const data = {
     countryCode: pn.regionCode,
@@ -76,8 +55,9 @@ async function login(phoneNumber: string): Promise<LoginResponse> {
       device: {
         deviceId: generateRandomString(16),
         language: "en",
-        manufacturer: device.manufacturer,
-        model: device.model,
+        // Using a realistic Xiaomi device profile to reduce the chance of spam detection/blocking by Truecaller.
+        manufacturer: "Xiaomi",
+        model: "M2010J19SI",
         osName: "Android",
         osVersion: "10",
         mobileServices: ["GMS"],
@@ -92,16 +72,14 @@ async function login(phoneNumber: string): Promise<LoginResponse> {
   const options = {
     method: "POST",
     headers: {
-      "content-type": "application/json; charset=UTF-8",
-      "accept-encoding": "gzip",
-      "user-agent": "Truecaller/11.75.5 (Android;10)",
       clientsecret: "lvc22mp3l1sfv6ujg83rd17btt",
     },
     url: postUrl,
     data,
   };
 
-  const res = await axios(options);
+  // Send the onboarding OTP request
+  const res = await request(options);
   return res.data;
 }
 

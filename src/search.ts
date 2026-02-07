@@ -20,7 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import request from "./utils/request.js";
 import { parsePhoneNumber } from "awesome-phonenumber";
 import { Builder } from "xml2js";
 import { jsonToPlainText } from "json-to-plain-text";
@@ -154,6 +155,7 @@ class Format {
   }
 }
 
+
 /**
  * Searching phone number on truecallerjs
  * @var response => {...}
@@ -177,7 +179,9 @@ function search(searchData: SearchData): Promise<Format> {
   });
   const significantNumber = phoneNumber?.number?.significant;
 
-  return axios
+  // Perform the search using the centralized request utility
+  // Using 'search5-noneu' endpoint as it has shown better reliability for non-EU requests.
+  return request
     .get(`https://search5-noneu.truecaller.com/v2/search`, {
       params: {
         q: significantNumber,
@@ -188,9 +192,6 @@ function search(searchData: SearchData): Promise<Format> {
         encoding: "json",
       },
       headers: {
-        "content-type": "application/json; charset=UTF-8",
-        "accept-encoding": "gzip",
-        "user-agent": "Truecaller/11.75.5 (Android;10)",
         Authorization: `Bearer ${searchData.installationId}`,
       },
     })
@@ -201,6 +202,8 @@ function search(searchData: SearchData): Promise<Format> {
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (error: any) => {
+        // Return a Format object wrapping the error to prevent crashes,
+        // though consumers should check for error properties.
         return new Format(error);
       },
     );
@@ -219,7 +222,8 @@ function bulkSearch(
   regionCode: string,
   installationId: string,
 ): Promise<BulkSearchData> {
-  return axios
+  // Perform the bulk search using the centralized request utility
+  return request
     .get(`https://search5-noneu.truecaller.com/v2/bulk`, {
       params: {
         q: phoneNumbers,
@@ -229,9 +233,6 @@ function bulkSearch(
         encoding: "json",
       },
       headers: {
-        "content-type": "application/json; charset=UTF-8",
-        "accept-encoding": "gzip",
-        "user-agent": "Truecaller/11.75.5 (Android;10)",
         Authorization: `Bearer ${installationId}`,
       },
     })

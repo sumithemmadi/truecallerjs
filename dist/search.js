@@ -1,21 +1,5 @@
 // MIT License
-// Copyright (c) 2021 Emmadi Sumith Kumar
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-import axios from "axios";
+import request from "./utils/request.js";
 import { parsePhoneNumber } from "awesome-phonenumber";
 import { Builder } from "xml2js";
 import { jsonToPlainText } from "json-to-plain-text";
@@ -40,10 +24,10 @@ class Format {
     }
     text(color = false, space = false) {
         const options = {
-            color: color,
-            spacing: space,
-            squareBracketsForArray: false,
-            doubleQuotesForKeys: false,
+            color: color, // Whether to apply colors to the output or not
+            spacing: space, // Whether to include spacing after colons or not
+            squareBracketsForArray: false, // Whether to use square brackets for arrays or not
+            doubleQuotesForKeys: false, // Whether to use double quotes for object keys or not
             doubleQuotesForValues: false,
         };
         return jsonToPlainText(JSON.parse(JSON.stringify(this.json())), options);
@@ -116,7 +100,9 @@ function search(searchData) {
         regionCode: searchData.countryCode,
     });
     const significantNumber = phoneNumber?.number?.significant;
-    return axios
+    // Perform the search using the centralized request utility
+    // Using 'search5-noneu' endpoint as it has shown better reliability for non-EU requests.
+    return request
         .get(`https://search5-noneu.truecaller.com/v2/search`, {
         params: {
             q: significantNumber,
@@ -127,9 +113,6 @@ function search(searchData) {
             encoding: "json",
         },
         headers: {
-            "content-type": "application/json; charset=UTF-8",
-            "accept-encoding": "gzip",
-            "user-agent": "Truecaller/11.75.5 (Android;10)",
             Authorization: `Bearer ${searchData.installationId}`,
         },
     })
@@ -139,6 +122,8 @@ function search(searchData) {
     }, 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (error) => {
+        // Return a Format object wrapping the error to prevent crashes,
+        // though consumers should check for error properties.
         return new Format(error);
     });
 }
@@ -151,7 +136,8 @@ function search(searchData) {
  * @return {Object} It contains phone numbers information in a array
  */
 function bulkSearch(phoneNumbers, regionCode, installationId) {
-    return axios
+    // Perform the bulk search using the centralized request utility
+    return request
         .get(`https://search5-noneu.truecaller.com/v2/bulk`, {
         params: {
             q: phoneNumbers,
@@ -161,9 +147,6 @@ function bulkSearch(phoneNumbers, regionCode, installationId) {
             encoding: "json",
         },
         headers: {
-            "content-type": "application/json; charset=UTF-8",
-            "accept-encoding": "gzip",
-            "user-agent": "Truecaller/11.75.5 (Android;10)",
             Authorization: `Bearer ${installationId}`,
         },
     })
